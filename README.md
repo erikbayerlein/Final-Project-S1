@@ -1,7 +1,5 @@
 <h1>Final project of FuP </h1>
 
-<hr>
-
 <h3>About the project: </h3>
 [Trabalho_Final_FUP_2022-1.pdf](https://github.com/erikbayerlein/final_project_FuP/files/8952527/Trabalho_Final_FUP_2022-1.pdf)
 
