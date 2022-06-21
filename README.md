@@ -8,4 +8,5 @@
 <a href="https://github.com/joaosiwao">Erik Bayerlein</a>
 <br/>
 <a href="https://github.com/joaosiwao">Joao Victor da Silva Simão</a>
-<h5>Erik Bayerlein, Joao Victor da Silva Simão and Diogo Santiago Oliveira</h5>
+</br>
+<h5>Diogo Santiago Oliveira</h5>
