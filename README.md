@@ -2,7 +2,7 @@
 
 
 <h3>About the project: </h3>
-To build a virtual wardrobe
+Virtual wardrobe
 <br>
 More details:
 <br>
