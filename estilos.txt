@@ -1,0 +1,21 @@
+    ID Estilos CONTADOR
+    1 VERAO 0
+
+
+
+    ID_DA_PECAS 
+    3 
+    4 
+    5 
+
+teremos um arquivo para os Estilos contendo id, o nome do estilo e contador do estilo
+cada estilo tera seu arquivo contendo o id das pecas, 
+
+superior.txt
+ID
+1
+5
+7
+
+adicionar uma categoria 
+adicionar pecas na categoria 
