@@ -65,16 +65,25 @@ def opcao_1 ():
         #Retira a coluna do ID da lista
         list_conteudo.pop(0)
 
+        arq = open("validacao_opt_1.txt", "r")
+        list_sit = arq.strip()
+        list_sit.pop(0)
+        arq.close()
+
         #Declara uma lista vazia para acrescentar uma peça
         list_info = []
         #Preenche as informações de cada coluna exceto ID que não recebe entrada do usuário
         for j in range(7):
-            print("Digite a informação seguinte: ", list_conteudo[j])
-            info = input()
-            info = tratamento_cadastro(j, info)
-            info = info + " "
-            #Recebe as informações formatada em lista e adiciona a variável
-            list_info.append(info)
+            if j == 7 and list_info[-1] in list_sit:
+                info = "- "
+                list_info.append(info)
+            else:
+                print("Digite a informação seguinte: ", list_conteudo[j])
+                info = input()
+                info = tratamento_cadastro(j, info)
+                info = info + " "
+                #Recebe as informações formatada em lista e adiciona a variável
+                list_info.append(info)
 
         #Adiciona um espaço após o ID para formatar
         cont_id = cont_id + " "
@@ -299,16 +308,48 @@ def imprimir_arq_arm():
 
     return lista_armario
 
+
+
+def tratamento_preco(j, info, list_conteudo, list_info):
+
+    arq = open("validacao_opt_1.txt", "r")
+    list_sit = arq[2].strip()
+    arq.close()
+
+    if list_sit[0] == list_info[-1]:
+        print("Digite a informação seguinte: ", list_conteudo[j])
+        info = float(input())
+        info = round(info, 2)
+        info = str(info) + " "
+        #Recebe as informações formatada em lista e adiciona a variável
+        list_info.append(info)
+        return list_info
+    else:
+        info = "-"
+        list_info.append(info)
+        return list_info
+
+
+
 def tratamento_cadastro(j,info):
+
+    #Tipo
     if j == 1:
+
+        arq = open("validacao_opt_1.txt", "r")
+        lista_tipos = arq[1].strip()
+        arq.close()
+
         info = info.lower().strip()
         while True:
-            if info != 'superior' or info != 'inferior' or info != 'calcado' or info != 'calçado':
+            if info not in lista_tipos:
                 print("Entrada inválida. Informe se é superior, inferior ou calçado!")
                 info = input("Digite o tipo da peça: ")
                 info = info.lower().strip()
             else:
                 return info
+
+    #Tamanho
     if j == 2:
         info = info.lower().strip()
         while True:
@@ -318,6 +359,8 @@ def tratamento_cadastro(j,info):
                 info = info.lower().strip()
             else:
                 return info
+
+    #Padrão
     if j == 3:
         info = info.lower().strip()
         while True:
@@ -328,9 +371,10 @@ def tratamento_cadastro(j,info):
             else:
                 return info
 
+    #Cor
     if j == 4:
 
-        arq = open("cores.txt", "r")
+        arq = open("validacao_opt_1.txt", "r")
         lista_cores = arq[0].strip()
         arq.close()
 
@@ -343,6 +387,7 @@ def tratamento_cadastro(j,info):
                 info = info.lower().strip()
             else:
                 return info
+
     #TRATAMENTO DE DADOS DIA/MES/ANO
     if j == 5:
         info = info.lower().strip()
@@ -354,10 +399,16 @@ def tratamento_cadastro(j,info):
             else:
                 return info
 
+    #Situação
     if j == 6:
+
+        arq = open("validacao_opt_1.txt", "r")
+        lista_sit = arq[2].strip()
+        arq.close()
+
         info = info.lower().strip()
         while True:
-            if info != 'venda' or info != 'doacao' or info != 'doacão' or info != 'doação' or info != 'doaçao' or info != 'ficar':
+            if info not in lista_sit:
                 print("Entrada inválida. Informe se é venda, doação ou ficar!")
                 info = input("Digite a situação da peça: ")
                 info = info.lower().strip()
