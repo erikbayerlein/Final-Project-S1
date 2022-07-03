@@ -69,7 +69,7 @@ def opcao_1 ():
     menu_principal()
 
 
-#def opcao_2():
+# def opcao_2():
 
 
 
@@ -95,12 +95,12 @@ def opcao_5():
     lista_armario = imprimir_arq_arm()
     
     cat = ["1- Tipo","2- Tamanho","3- Padrao",
-    "4- Cor","5- Data","6- Situacao", "7- Preco", "8- Estilos\n"]
+    "4- Cor","5- Data","6- Situacao", "7- Preco\n"]
 
 
     id_alter = int(input("Digite o ID da peça a ser alterada: "))
     
-    for i in range(8):
+    for i in range(7):
         print(cat[i])
 
 
@@ -110,15 +110,13 @@ def opcao_5():
 
     lista_armario2 = []
 
-    for i in range(len(lista_armario)-1):
+    for i in range(len(lista_armario)):
         lista_armario2.append(lista_armario[i].split())
-    print(lista_armario2)
 
-    for i in range(len(lista_armario2)-1):
-        for j in range(len(lista_armario2))
+    for i in range(len(lista_armario2)):
         if str(id_alter) in lista_armario2[i][0]:
-            lista_armario2.pop([i][cat_alter])
-            lista_armario2.insert([i][cat_alter], alteracao)
+            lista_armario2[i][cat_alter] = lista_armario2[i][cat_alter].replace(lista_armario2[i][cat_alter], alteracao)
+
     print(lista_armario2)
 
 
@@ -141,9 +139,9 @@ def imprimir_arq_arm():
 
 
 
-#def opcao_4():
+# def opcao_4():
 
-#def opcao_6():
+# def opcao_6():
 
 
 
