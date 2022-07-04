@@ -1,5 +1,3 @@
-from datetime import date
-
 def menu_principal():
 
     titulos = ["1- Inserir nova peça","2- Inserir novo estilo","3- Remover peça",
@@ -78,7 +76,7 @@ def opcao_1 ():
         list_info = []
         #Preenche as informações de cada coluna exceto ID que não recebe entrada do usuário
         for j in range(7):
-
+            #################################### AJEITAR DOACAO ####################################
             #IF para quando situação = doação ou ficar adiciona - a coluna de preço se não o usuário insere o valor
             if j == 6 and (list_info[5][0:6] in list_sit or list_info[5][0:5] in list_sit):
                 info = "- "
@@ -350,47 +348,49 @@ def tratamento_preco(j, info, list_conteudo, list_info):
 
 def tratamento_cadastro(j,info):
 
-    #Tipo
+    #Tipo 
+    #OK
     if j == 0:
 
         arq = open("validacao_opt_1.txt", "r")
-        lista_tipos = arq.readline(0).strip()
+        lista_tipos = arq.readlines()[0].split()
         arq.close()
 
         info = info.lower().strip()
         while True:
-            if info not in lista_tipos:
+            if info in lista_tipos:
+                return info
+            else:
                 print("Entrada inválida. Informe se é superior, inferior ou calçado!")
                 info = input("Digite o tipo da peça: ")
                 info = info.lower().strip()
-            else:
-                return info
-                break
 
     #Tamanho
+    #OK
     if j == 1:
         info = info.lower().strip()
         while True:
-            if info != 'p' or info != 'm' or info != 'g':
+            if info == 'p' or info == 'm' or info == 'g':
+                return info
+            else:
                 print("Entrada inválida. Informe se é p, m ou g!")
                 info = input("Digite o tamanho da peça: ")
                 info = info.lower().strip()
-            else:
-                return info
-                break
 
     #Padrão
+    #OK
     if j == 2:
         info = info.lower().strip()
         while True:
-            if info != 'masculino' or info != 'feminino' or info != 'unissex':
+            if info == 'masculino' or info == 'feminino' or info == 'unissex':
+                return info
+            else:
                 print("Entrada inválida. Informe se é masculino, feminino ou unissex!")
                 info = input("Digite o padrão da peça: ")
                 info = info.lower().strip()
-            else:
-                return info
 
     #Cor
+    #PRECISA DE ALTERACAO
     if j == 3:
 
         arq = open("validacao_opt_1.txt", "r")
@@ -408,6 +408,7 @@ def tratamento_cadastro(j,info):
                 return info
 
     #TRATAMENTO DE DADOS DIA/MES/ANO
+    #PRECISA FAZER
     if j == 4:
         info = info.lower().strip()
         while True:
@@ -419,6 +420,7 @@ def tratamento_cadastro(j,info):
                 return info
 
     #Situação
+    #PRECISA DE ALTERACAO
     if j == 5:
 
         arq = open("validacao_opt_1.txt", "r")
@@ -434,16 +436,6 @@ def tratamento_cadastro(j,info):
             else:
                 return info
 
-    #TRATAMENTO DE PREÇO(TRATAR TAMBÉM QUANDO PEÇA É PARA DOAÇÃO E PULAR O PREÇO)
-    if j == 6:
-        info = info.lower().strip()
-        while True:
-            if info != 'superior' or info != 'inferior' or info != 'calcado' or info != 'calçado':
-                print("Entrada inválida. Informe se é superior, inferior ou calçado!")
-                info = input("Digite o tipo da peça: ")
-                info = info.lower().strip()
-            else:
-                return info
 
 # def opcao_4():
 
