@@ -1,3 +1,5 @@
+from datetime import date
+
 def menu_principal():
 
     titulos = ["1- Inserir nova peça","2- Inserir novo estilo","3- Remover peça",
@@ -153,6 +155,8 @@ def opcao_3():
     #Se sim, repete a função opcao_3()
     else:
         opcao_3()
+
+
 
 #Função para alteração de dados
 def opcao_5():
@@ -311,7 +315,6 @@ def alteracao_arm(id_alter, lista_armario2):
 
 
 
-
 #Função para imprimir o arquivo armario.txt
 def imprimir_arq_arm():
     arq = open("armario.txt", "r")
@@ -325,27 +328,22 @@ def imprimir_arq_arm():
 
 
 
-def tratamento_preco(j, info, list_conteudo, list_info):
+def tratamento_data():
+    list_data = ["dia", "mês", "ano"]
 
-    arq = open("validacao_opt_1.txt", "r")
-    list_sit = arq[2].strip()
-    arq.close()
-
-    if list_sit[0] == list_info[-1]:
-        print("Digite a informação seguinte: ", list_conteudo[j])
-        info = float(input())
-        info = round(info, 2)
-        info = str(info) + " "
-        #Recebe as informações formatada em lista e adiciona a variável
-        list_info.append(info)
-        return list_info
-    else:
-        info = "-"
-        list_info.append(info)
-        return list_info
+    for i in range(3):
+        while True:
+            data = int(input("Digite o %s da compra: " %list_data[i]))
+            if i == 1:
+                
+        if i != 2:
+            data = data + "/"
+        else: continue
 
 
 
+
+#Função para tratar os dados de entrada
 def tratamento_cadastro(j,info):
 
     #Tipo 
@@ -390,22 +388,22 @@ def tratamento_cadastro(j,info):
                 info = info.lower().strip()
 
     #Cor
-    #PRECISA DE ALTERACAO
+    #OK
     if j == 3:
 
         arq = open("validacao_opt_1.txt", "r")
-        lista_cores = arq.readline(1).strip()
+        lista_cores = arq.readlines()[1].split()
         arq.close()
 
         info = info.lower().strip()
         while True:
-            if info not in lista_cores:
-                print("Entrada inválida. Informe uma cor presente na lista!")
-                print("\n " *lista_cores)
+            if info in lista_cores:
+                return info
+            else:
+                print("Entrada inválida. Informe uma cor presente na lista!\n")
+                print(*lista_cores)
                 info = input("\nDigite a cor da principal da peça: ")
                 info = info.lower().strip()
-            else:
-                return info
 
     #TRATAMENTO DE DADOS DIA/MES/ANO
     #PRECISA FAZER
