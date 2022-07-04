@@ -66,21 +66,28 @@ def opcao_1 ():
         list_conteudo.pop(0)
 
         arq = open("validacao_opt_1.txt", "r")
-        list_sit = arq.strip()
-        list_sit.pop(0)
+
+        list_sit = arq.readlines()
+        list_sit = list_sit.pop(2)
+        list_sit = list_sit.split()
+        del(list_sit[0])
+        print(list_sit)
+
         arq.close()
 
         #Declara uma lista vazia para acrescentar uma peça
         list_info = []
         #Preenche as informações de cada coluna exceto ID que não recebe entrada do usuário
         for j in range(7):
-            if j == 7 and list_info[-1] in list_sit:
+            #TENTATIVA DE TRATAMENTO DE ENTRADA DE DADOS DO PRECO
+            if j == 7 and list_info[-1][0:6] in list_sit:
+                print(list_sit)
+                print(list_info)
                 info = "- "
                 list_info.append(info)
             else:
                 print("Digite a informação seguinte: ", list_conteudo[j])
                 info = input()
-                info = tratamento_cadastro(j, info)
                 info = info + " "
                 #Recebe as informações formatada em lista e adiciona a variável
                 list_info.append(info)
