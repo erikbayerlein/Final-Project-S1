@@ -71,7 +71,6 @@ def opcao_1 ():
         list_sit = list_sit.pop(2)
         list_sit = list_sit.split()
         del(list_sit[0])
-        print(list_sit)
 
         arq.close()
 
@@ -79,22 +78,26 @@ def opcao_1 ():
         list_info = []
         #Preenche as informações de cada coluna exceto ID que não recebe entrada do usuário
         for j in range(7):
-            print(list_info)
-            #IF para quando sitação for = venda ou ficar adiciona - a coluna de preço se não o usuário insere o valor
-            if j == 6 and list_info[5][0:6] in list_sit:
-                print(len(list_info))
+
+            #IF para quando situação = doação ou ficar adiciona - a coluna de preço se não o usuário insere o valor
+            if j == 6 and (list_info[5][0:6] in list_sit or list_info[5][0:5] in list_sit):
                 info = "- "
                 list_info.append(info)
-            #ELIF para fazer com que o preço seja formatado para float e casas decimais
-            '''elif j == 7 and list_info[6] in list_sit:
+
+            #ELIF para quando situação = venda recebe do usuário a entrada em float, formata e insere
+            elif j == 6 and list_info[5][0:5] == 'venda':
                 print("Digite a informação seguinte: ", list_conteudo[j])
                 info = float(input())
                 info = round(info, 2)
                 info = str(info)
-                info = info + " "'''
+                info = info + " "
+                list_info.append(info)
+
+            #Todos os outros casos
             else:
                 print("Digite a informação seguinte: ", list_conteudo[j])
                 info = input()
+                info = tratamento_cadastro(j, info)
                 info = info + " "
                 #Recebe as informações formatada em lista e adiciona a variável
                 list_info.append(info)
@@ -348,10 +351,10 @@ def tratamento_preco(j, info, list_conteudo, list_info):
 def tratamento_cadastro(j,info):
 
     #Tipo
-    if j == 1:
+    if j == 0:
 
         arq = open("validacao_opt_1.txt", "r")
-        lista_tipos = arq[1].strip()
+        lista_tipos = arq.readline(0).strip()
         arq.close()
 
         info = info.lower().strip()
@@ -362,9 +365,10 @@ def tratamento_cadastro(j,info):
                 info = info.lower().strip()
             else:
                 return info
+                break
 
     #Tamanho
-    if j == 2:
+    if j == 1:
         info = info.lower().strip()
         while True:
             if info != 'p' or info != 'm' or info != 'g':
@@ -373,9 +377,10 @@ def tratamento_cadastro(j,info):
                 info = info.lower().strip()
             else:
                 return info
+                break
 
     #Padrão
-    if j == 3:
+    if j == 2:
         info = info.lower().strip()
         while True:
             if info != 'masculino' or info != 'feminino' or info != 'unissex':
@@ -386,24 +391,24 @@ def tratamento_cadastro(j,info):
                 return info
 
     #Cor
-    if j == 4:
+    if j == 3:
 
         arq = open("validacao_opt_1.txt", "r")
-        lista_cores = arq[0].strip()
+        lista_cores = arq.readline(1).strip()
         arq.close()
 
         info = info.lower().strip()
         while True:
             if info not in lista_cores:
                 print("Entrada inválida. Informe uma cor presente na lista!")
-                print("\n " * lista_cores)
+                print("\n " *lista_cores)
                 info = input("\nDigite a cor da principal da peça: ")
                 info = info.lower().strip()
             else:
                 return info
 
     #TRATAMENTO DE DADOS DIA/MES/ANO
-    if j == 5:
+    if j == 4:
         info = info.lower().strip()
         while True:
             if info != 'superior' or info != 'inferior' or info != 'calcado' or info != 'calçado':
@@ -414,7 +419,7 @@ def tratamento_cadastro(j,info):
                 return info
 
     #Situação
-    if j == 6:
+    if j == 5:
 
         arq = open("validacao_opt_1.txt", "r")
         lista_sit = arq[2].strip()
@@ -430,7 +435,7 @@ def tratamento_cadastro(j,info):
                 return info
 
     #TRATAMENTO DE PREÇO(TRATAR TAMBÉM QUANDO PEÇA É PARA DOAÇÃO E PULAR O PREÇO)
-    if j == 7:
+    if j == 6:
         info = info.lower().strip()
         while True:
             if info != 'superior' or info != 'inferior' or info != 'calcado' or info != 'calçado':
