@@ -79,10 +79,9 @@ def opcao_1 ():
         list_info = []
         #Preenche as informações de cada coluna exceto ID que não recebe entrada do usuário
         for j in range(7):
+            print(list_info)
             #TENTATIVA DE TRATAMENTO DE ENTRADA DE DADOS DO PRECO
-            if j == 7 and list_info[-1][0:6] in list_sit:
-                print(list_sit)
-                print(list_info)
+            if j == 6 and list_info[len(list_info) - 1][0:6] in list_sit:
                 info = "- "
                 list_info.append(info)
             else:
