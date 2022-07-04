@@ -80,10 +80,18 @@ def opcao_1 ():
         #Preenche as informações de cada coluna exceto ID que não recebe entrada do usuário
         for j in range(7):
             print(list_info)
-            #TENTATIVA DE TRATAMENTO DE ENTRADA DE DADOS DO PRECO
-            if j == 6 and list_info[len(list_info) - 1][0:6] in list_sit:
+            #IF para quando sitação for = venda ou ficar adiciona - a coluna de preço se não o usuário insere o valor
+            if j == 6 and list_info[5][0:6] in list_sit:
+                print(len(list_info))
                 info = "- "
                 list_info.append(info)
+            #ELIF para fazer com que o preço seja formatado para float e casas decimais
+            '''elif j == 7 and list_info[6] in list_sit:
+                print("Digite a informação seguinte: ", list_conteudo[j])
+                info = float(input())
+                info = round(info, 2)
+                info = str(info)
+                info = info + " "'''
             else:
                 print("Digite a informação seguinte: ", list_conteudo[j])
                 info = input()
