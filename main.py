@@ -94,9 +94,16 @@ def opcao_1():
         list_info = []
         # Preenche as informações de cada coluna exceto ID que não recebe entrada do usuário
         for j in range(7):
+            ## TRATAMENTO DE DATA ##
+            if j == 4:
+                info = tratamento_data()
+                info = info + " "
+                # Recebe as informações formatada em lista e adiciona a variável
+                list_info.append(info)
+
             #################################### AJEITAR DOACAO ####################################
             # IF para quando situação = doação ou ficar adiciona - a coluna de preço se não o usuário insere o valor
-            if j == 6 and (list_info[5][0:6] in list_sit or list_info[5][0:5] in list_sit):
+            elif j == 6 and (list_info[5][0:6] in list_sit or list_info[5][0:5] in list_sit):
                 info = "- "
                 list_info.append(info)
 
@@ -195,6 +202,8 @@ def opcao_5():
     # Digitar o número da opção a ser alterada
     cat_alter = int(input("Digite o número da opção a ser alterada: \n"))
 
+    #Situção e preco
+
     # Digitar a nova informação que irá substituir a anterior
     alteracao = input("Digite a nova informação: ")
 
@@ -280,6 +289,8 @@ def alteracao_arm(id_alter, lista_armario2):
     # Digitar o número da opção a ser alterada
     cat_alter = int(input("Digite o número da opção a ser alterada: \n"))
 
+    #tratamento de situacao mais preco
+
     # Digitar a nova informação que irá substituir a anterior
     alteracao = input("Digite a nova informação: ")
 
@@ -343,19 +354,116 @@ def imprimir_arq_arm():
 
     return lista_armario
 
-# Função para tratar a entrada do usuário de data
 def tratamento_data():
-    list_data = ["dia", "mês", "ano"]
 
-    for i in range(3):
-        while True:
-            data = int(input("Digite o %s da compra: " % list_data[i]))
-            if i == 1:
+    data_atual = date.today()
+    data_atual = str(data_atual)
 
-            elif i != 2:
-                data = data + "/"
+    ano_atual = int(data_atual[0:4])
+    mes_atual = int(data_atual[5:7])
+    dia_atual = int(data_atual[8:10])
+
+    while True:
+        ano = int(input("Digite o ano de aquisição: "))
+        if ano <= ano_atual:
+            break
+        else:
+            print("Entrada inválida. Digite um ano menor ou igual ao ano atual.")
+
+    while True:
+        mes = int(input("Digite o mês de aquisição: "))
+        if ano == ano_atual and mes <= mes_atual:
+            if mes >= 1 and mes <= mes_atual:
+                break
             else:
-                continue
+                print("Entrada inválida. Digite um mês válido.")
+        elif ano < ano_atual:
+            if mes >= 1 and mes <= 12:
+                break
+            else:
+                print("Entrada inválida. Digite um mês válido.")
+        elif ano == ano_atual and mes > mes_atual:
+            print("Entrada inválida. Digite um mês válido.")
+
+    while True:
+        dia = int(input("Digite o dia de aquisição: "))
+        if mes == mes_atual and dia <= dia_atual and ano == ano_atual:
+            if dia >= 1 and dia <= dia_atual:
+                break
+            else:
+                print("Entrada inválida. Digite um dia válido.")
+        elif ano == ano_atual and mes < mes_atual:
+            #MESES COM 30 DIAS  
+            if mes % 2 == 0 and mes != 2 and mes != 8:
+                if dia >= 1 and dia <= 30:
+                    break
+                else:
+                    print("Entrada inválida. Digite um dia menor válido para o mês %i." %mes)
+            #MESES COM 31 DIAS
+            elif mes % 2 != 0 and mes != 2:
+                if dia >= 1 and dia <= 31:
+                    break
+                else:
+                    print("Entrada inválida. Digite um dia menor válido para o mês %i." %mes)
+            #FEVEREIRO
+            else:
+                #SE É ANO BISSEXTO
+                if ano % 4 == 0:
+                    if dia >= 1 and dia <= 29:
+                        break
+                    else:
+                        print("Entrada inválida. Digite um dia menor válido para o mês %i." %mes)
+                #SE NÃO É ANO BISSEXTO
+                else:
+                    if dia >= 1 and dia <= 28:
+                        break
+                    else:
+                        print("Entrada inválida. Digite um dia menor válido para o mês %i." %mes)
+        elif ano < ano_atual:
+            #MESES COM 30 DIAS  
+            if mes % 2 == 0 and mes != 2 and mes != 8:
+                if dia >= 1 and dia <= 30:
+                    break
+                else:
+                    print("Entrada inválida. Digite um dia menor válido para o mês %i." %mes)
+            #MESES COM 31 DIAS
+            elif mes % 2 != 0 and mes != 2:
+                if dia >= 1 and dia <= 31:
+                    break
+                else:
+                    print("Entrada inválida. Digite um dia menor válido para o mês %i." %mes)
+            #FEVEREIRO
+            else:
+                #SE É ANO BISSEXTO
+                if ano % 4 == 0:
+                    if dia >= 1 and dia <= 29:
+                        break
+                    else:
+                        print("Entrada inválida. Digite um dia menor válido para o mês %i." %mes)
+                #SE NÃO É ANO BISSEXTO
+                else:
+                    if dia >= 1 and dia <= 28:
+                        break
+                    else:
+                        print("Entrada inválida. Digite um dia menor válido para o mês %i." %mes)
+        elif ano == ano_atual and mes == mes_atual and dia > dia_atual:
+            print("Entrada inválida. Digite um dia menor válido para o mês %i." %mes)
+    
+    data_aquisicao = str(dia) +"/"+ str(mes) +"/"+ str(ano)
+
+    return data_aquisicao
+
+    
+
+# Função para tratar a entrada do usuário de data
+'''def formatacao_data(data_aquisicao):
+    try:
+        datetime.datetime.strptime(data_aquisicao, '%a/%m/%d')
+        return(data_aquisicao)
+    except:
+        print("Data deve ser no formato AAAA/MM/DD")
+        data_adocao = str(input("Digite novamente a data de aquisição da peça")).strip()
+        return tratamento_data(data_aquisicao)'''
 
 # Função para tratar os dados de entrada
 def tratamento_cadastro(j, info):
@@ -432,7 +540,7 @@ def tratamento_cadastro(j, info):
 
     # Situação
     # PRECISA DE ALTERACAO
-    if j == 5:
+    '''if j == 5:
 
         arq = open("validacao_opt_1.txt", "r")
         lista_sit = arq[2].strip()
@@ -445,7 +553,7 @@ def tratamento_cadastro(j, info):
                 info = input("Digite a situação da peça: ")
                 info = info.lower().strip()
             else:
-                return info
+                return info'''
 ################# ################# #################
 
 # Ao inicializar o programa chama a nossa função principal do programa
