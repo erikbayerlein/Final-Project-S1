@@ -2,7 +2,9 @@
 from datetime import date
 ################# ########################## #################
 
+
 ################ FUNÇÕES PRINCIPAIS #################
+
 # Função para chamar o menu principal
 def menu_principal():
 
@@ -42,6 +44,8 @@ def menu_principal():
 
     elif opcao_escolhida == 7:
         exit()
+
+#----------------------------------------------------
 
 # Função para Adicionar peças
 def opcao_1():
@@ -138,10 +142,14 @@ def opcao_1():
     # Volta ao menu principal
     menu_principal()
 
+#----------------------------------------------------
+
 # Função para Adicionar estilos
 def opcao_2():
     print("Esta função não está pronta ainda, você será movido ao menu principal")
     menu_principal()
+
+#----------------------------------------------------
 
 # Função para Remoção de dados
 def opcao_3():
@@ -178,10 +186,14 @@ def opcao_3():
     else:
         opcao_3()
 
+#----------------------------------------------------
+
 # Função para Remoção de estilos
 def opcao_4():
     print("Esta função não está pronta ainda, você será movido ao menu principal")
     menu_principal()
+
+#----------------------------------------------------
 
 # Função para alteração de dados
 def opcao_5():
@@ -262,13 +274,18 @@ def opcao_5():
     else:
         alteracao_arm(id_alter, lista_armario2)
 
+#----------------------------------------------------
+
 # Função para realizar busca
 def opcao_6():
     print("Esta função não está pronta ainda, você será movido ao menu principal")
     menu_principal()
+
+
 ################# ################# #################
 
 ################ FUNÇÕES SECUNDÁRIAS ################
+
 # Função para executar alteração da mesma peça
 def alteracao_arm(id_alter, lista_armario2):
 
@@ -343,6 +360,8 @@ def alteracao_arm(id_alter, lista_armario2):
     else:
         alteracao_arm(id_alter, lista_armario3)
 
+#----------------------------------------------------
+
 # Função para imprimir o arquivo armario.txt
 def imprimir_arq_arm():
     arq = open("armario.txt", "r")
@@ -353,6 +372,8 @@ def imprimir_arq_arm():
     arq.close()
 
     return lista_armario
+
+#----------------------------------------------------
 
 def tratamento_data():
 
