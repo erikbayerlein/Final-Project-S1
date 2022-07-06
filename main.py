@@ -105,7 +105,6 @@ def opcao_1():
                 # Recebe as informações formatada em lista e adiciona a variável
                 list_info.append(info)
 
-            #################################### AJEITAR DOACAO ####################################
             # IF para quando situação = doação ou ficar adiciona - a coluna de preço se não o usuário insere o valor
             elif j == 6 and (list_info[5][0:6] in list_sit or list_info[5][0:5] in list_sit):
                 info = "- "
@@ -139,6 +138,7 @@ def opcao_1():
         arquivo_armario.write("\n" + "".join(list_info))
 
         arquivo_armario.close()
+        
     # Volta ao menu principal
     menu_principal()
 
@@ -375,6 +375,7 @@ def imprimir_arq_arm():
 
 #----------------------------------------------------
 
+# Função para o tratamento de data
 def tratamento_data():
 
     data_atual = date.today()
@@ -415,13 +416,13 @@ def tratamento_data():
                 print("Entrada inválida. Digite um dia válido.")
         elif ano == ano_atual and mes < mes_atual:
             #MESES COM 30 DIAS  
-            if mes % 2 == 0 and mes != 2 and mes != 8:
+            if mes == 4 or mes == 6 or mes == 9 or mes == 11:
                 if dia >= 1 and dia <= 30:
                     break
                 else:
                     print("Entrada inválida. Digite um dia menor válido para o mês %i." %mes)
             #MESES COM 31 DIAS
-            elif mes % 2 != 0 and mes != 2:
+            elif mes == 1 or mes == 3 or mes == 5 or mes == 7 or mes == 8 or mes == 10 or mes == 12:
                 if dia >= 1 and dia <= 31:
                     break
                 else:
@@ -442,13 +443,13 @@ def tratamento_data():
                         print("Entrada inválida. Digite um dia menor válido para o mês %i." %mes)
         elif ano < ano_atual:
             #MESES COM 30 DIAS  
-            if mes % 2 == 0 and mes != 2 and mes != 8:
+            if mes == 4 or mes == 6 or mes == 9 or mes == 11:
                 if dia >= 1 and dia <= 30:
                     break
                 else:
                     print("Entrada inválida. Digite um dia menor válido para o mês %i." %mes)
             #MESES COM 31 DIAS
-            elif mes % 2 != 0 and mes != 2:
+            elif mes == 1 or mes == 3 or mes == 5 or mes == 7 or mes == 8 or mes == 10 or mes == 12:
                 if dia >= 1 and dia <= 31:
                     break
                 else:
@@ -469,22 +470,12 @@ def tratamento_data():
                         print("Entrada inválida. Digite um dia menor válido para o mês %i." %mes)
         elif ano == ano_atual and mes == mes_atual and dia > dia_atual:
             print("Entrada inválida. Digite um dia menor válido para o mês %i." %mes)
-    
+   
     data_aquisicao = str(dia) +"/"+ str(mes) +"/"+ str(ano)
 
     return data_aquisicao
 
-    
-
-# Função para tratar a entrada do usuário de data
-'''def formatacao_data(data_aquisicao):
-    try:
-        datetime.datetime.strptime(data_aquisicao, '%a/%m/%d')
-        return(data_aquisicao)
-    except:
-        print("Data deve ser no formato AAAA/MM/DD")
-        data_adocao = str(input("Digite novamente a data de aquisição da peça")).strip()
-        return tratamento_data(data_aquisicao)'''
+#----------------------------------------------------
 
 # Função para tratar os dados de entrada
 def tratamento_cadastro(j, info):
@@ -547,34 +538,25 @@ def tratamento_cadastro(j, info):
                 info = input("\nDigite a cor da principal da peça: ")
                 info = info.lower().strip()
 
-    # TRATAMENTO DE DADOS DIA/MES/ANO
-    # PRECISA FAZER
-    if j == 4:
-        info = info.lower().strip()
-        while True:
-            if info != 'superior' or info != 'inferior' or info != 'calcado' or info != 'calçado':
-                print("Entrada inválida. Informe se é superior, inferior ou calçado!")
-                info = input("Digite o tipo da peça: ")
-                info = info.lower().strip()
-            else:
-                return info
-
     # Situação
-    # PRECISA DE ALTERACAO
-    '''if j == 5:
+    # OK
+    if j == 5:
 
         arq = open("validacao_opt_1.txt", "r")
-        lista_sit = arq[2].strip()
+        lista_sit = arq.readlines()[2].split()
         arq.close()
+
+        print(lista_sit)
 
         info = info.lower().strip()
         while True:
-            if info not in lista_sit:
+            if info in lista_sit:
+                return info
+            else:
                 print("Entrada inválida. Informe se é venda, doação ou ficar!")
                 info = input("Digite a situação da peça: ")
                 info = info.lower().strip()
-            else:
-                return info'''
+
 ################# ################# #################
 
 # Ao inicializar o programa chama a nossa função principal do programa

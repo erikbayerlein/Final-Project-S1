@@ -1,21 +1,7 @@
-    ID Estilos CONTADOR
-    1 VERAO 0
+ID Contador Peças
+            D00 D01 D02 D03 D04 ... D0M (peças)
+            D10 D11 D12 D13 D14 ... D1X (peças)
+            ...
+            DN0 DN1 DN12 DN3 DN4 ... DNZ (peças)
 
-
-
-    ID_DA_PECAS 
-    3 
-    4 
-    5 
-
-teremos um arquivo para os Estilos contendo id, o nome do estilo e contador do estilo
-cada estilo tera seu arquivo contendo o id das pecas, 
-
-superior.txt
-ID
-1
-5
-7
-
-adicionar uma categoria 
-adicionar pecas na categoria 
+DICIONÁRIOS VAI SERVIR PARA SE REFERIR AOS ESTILOS
