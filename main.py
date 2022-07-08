@@ -12,6 +12,8 @@ def menu_principal():
     titulos = ["1- Inserir nova peça", "2- Inserir novo estilo", "3- Remover peça",
                "4- Remover estilo", "5- Alterar peça", "6- Procurar peça", "7- Finalizar programa"]
 
+    print("\n**************** ARMÁRIO VIRTUAL ****************\n")
+
     for i in range(7):
         print(titulos[i])
 
@@ -146,8 +148,110 @@ def opcao_1():
 
 # Função para Adicionar estilos
 def opcao_2():
-    print("Esta função não está pronta ainda, você será movido ao menu principal")
-    menu_principal()
+    ''' 
+
+lista_alunos = []
+for i in range(2):
+    aluno["matricula"] = int(input())
+    aluno["nome"] = input()
+    medias = []
+    for j in range(2):
+        media = int(input())
+        medias.append(media)
+    aluno["medias"] = medias
+
+    lista_alunos.append(aluno)
+
+arq = open("dados.txt", "w")
+for i in range(len(lista_alunos)):
+    arq.write(str(lista_alunos[i] + "\n"))
+aqr.close()
+
+'''
+
+    opcoes = ["1- Inserir estilo", "2- Inserir peça a um estilo", "3- Voltar ao menu principal"]
+
+    for i in opcoes:
+        print(i)
+
+    while True:
+        opcao_escolhida = int(input("\nDigite um número correspondente a opção do menu: \n"))
+        if opcao_escolhida < 1 or opcao_escolhida > 3:
+            print("Entrada inválida. Digite um número válido.\n")
+        else:
+            break
+
+    if opcao_escolhida == 1:
+
+        nome = input("Digite o nome do estilo: ")
+        new_estilo = f"NOME = {nome}; CONTADOR = 0; PECAS = "
+
+        arq = open("estilos.txt", "a")
+        arq.write("\n" + new_estilo)
+        arq.close()
+
+        opcao_2()
+        
+    elif opcao_escolhida == 2:
+        
+        nome_estilo = input("Em qual estilo você gostaria de adicionar? ")
+
+        lista_arm = imprimir_arq_arm()
+
+        id_peca = input("Digite o ID da peça a ser adicionada: ")
+
+        lista_arm_2 = []
+        for i in range(len(lista_arm)):
+            lista_arm_2.append(lista_arm[i].split())
+
+        for i in range(len(lista_arm_2)):
+            if id_peca in lista_arm_2[i][0]:
+                peca = lista_arm[i]
+
+        peca = peca[0:-2]
+
+        arq = open("estilos.txt", "r")
+        lista_estilos = arq.readlines()
+        arq.close()
+
+
+        lista_dic = []
+        for i in lista_estilos:
+            dictionary = dict(subString.split("=") for subString in i.split(";"))
+            lista_dic.append(dictionary)
+        
+        
+        for i in range(len(lista_dic)):
+            if lista_dic[i]['NOME '] == " " + nome_estilo:
+                peca = "|" + peca
+                lista_estilos[i] = lista_estilos[i] + peca
+
+        # TENTATIVA DE CORREÇÃO DO \N (FALHA)
+        # COMEÇAR A PARTIR DAQUI E COMENTAR O CÓDIGO
+
+        new_estilos = []
+        for i in range(len(lista_estilos)):
+            linha = lista_estilos[0].split()
+            if "\n" in linha:
+                linha.pop("\n")
+            new_estilos.append(" ".join(linha))
+
+        print(new_estilos)
+        
+        arq = open("estilos.txt", "w")
+        arq.write("\n".join(new_estilos))
+        arq.close()
+
+
+
+                
+
+
+
+
+
+    elif opcao_escolhida == 3:
+        menu_principal()
 
 #----------------------------------------------------
 

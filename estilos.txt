@@ -1,7 +1,2 @@
-ID Contador Peças
-            D00 D01 D02 D03 D04 ... D0M (peças)
-            D10 D11 D12 D13 D14 ... D1X (peças)
-            ...
-            DN0 DN1 DN12 DN3 DN4 ... DNZ (peças)
-
-DICIONÁRIOS VAI SERVIR PARA SE REFERIR AOS ESTILOS
+NOME = inverno; CONTADOR = 6; PECAS = 1 superior p masculino vermelho 8/10/2002 ficar - 
+NOME = outono; CONTADOR = 3; PECAS = 4 superior m feminino azul 7/9/2000 doacao -
