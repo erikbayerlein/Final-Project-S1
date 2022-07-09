@@ -148,28 +148,8 @@ def opcao_1():
 
 # Função para Adicionar estilos
 def opcao_2():
-    ''' 
 
-lista_alunos = []
-for i in range(2):
-    aluno["matricula"] = int(input())
-    aluno["nome"] = input()
-    medias = []
-    for j in range(2):
-        media = int(input())
-        medias.append(media)
-    aluno["medias"] = medias
-
-    lista_alunos.append(aluno)
-
-arq = open("dados.txt", "w")
-for i in range(len(lista_alunos)):
-    arq.write(str(lista_alunos[i] + "\n"))
-aqr.close()
-
-'''
-
-    opcoes = ["1- Inserir estilo", "2- Inserir peça a um estilo", "3- Voltar ao menu principal"]
+    opcoes = ["1- Criar estilo", "2- Inserir peça a um estilo", "3- Voltar ao menu principal"]
 
     for i in opcoes:
         print(i)
@@ -223,32 +203,16 @@ aqr.close()
         
         for i in range(len(lista_dic)):
             if lista_dic[i]['NOME '] == " " + nome_estilo:
-                peca = "|" + peca
-                lista_estilos[i] = lista_estilos[i] + peca
+                peca = "|" + peca              
+                lista_estilos[i] = lista_estilos[i][:-2] + peca + "\n"
 
-        # TENTATIVA DE CORREÇÃO DO \N (FALHA)
-        # COMEÇAR A PARTIR DAQUI E COMENTAR O CÓDIGO
 
-        new_estilos = []
-        for i in range(len(lista_estilos)):
-            linha = lista_estilos[0].split()
-            if "\n" in linha:
-                linha.pop("\n")
-            new_estilos.append(" ".join(linha))
-
-        print(new_estilos)
-        
         arq = open("estilos.txt", "w")
-        arq.write("\n".join(new_estilos))
+        arq.writelines(lista_estilos)
         arq.close()
 
 
-
-                
-
-
-
-
+        opcao_2()
 
     elif opcao_escolhida == 3:
         menu_principal()
@@ -263,17 +227,31 @@ def opcao_3():
     # Pede o ID da peça a ser removida
     remov_id = int(input("Digite o ID da peça a ser removida: "))
 
+
     # For para percorrer as informações
     for i in range(len(lista_armario) - 1):
         # Se ID informado for igual ao primeiro elemento da linha na coluna 0 então:
         if str(remov_id) in lista_armario[i][0]:
+            # Salva a linha a ser removida em uma variavel para ser gaurdada no histórico
+            historico = lista_armario[i]
             # Del para excluir a linha do ID informado
             del (lista_armario[i])
 
+    para = input("Digite para quem foi vendida ou doada: ")
+
+    historico = "\n" + historico[:-1] + " " + para
+
+    print(historico)
+    
     # Sobrescreve o arquivo com as alterações realizadas e volta ao menu principal
     arq = open("armario.txt", "w")
     arq.writelines(lista_armario)
     arq.close()
+
+    arq = open("historico.txt", "a")
+    arq.write(historico)
+    arq.close()
+
 
     # Pergunta se o usuário deseja excluir outra peça e valida a resposta
     while True:

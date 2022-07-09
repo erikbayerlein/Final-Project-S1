@@ -1,0 +1,1 @@
+ID Tipo Tamanho Padrao Cor Data Situacao Preco Estilos Para
