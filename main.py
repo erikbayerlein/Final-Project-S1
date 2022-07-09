@@ -9,7 +9,7 @@ from datetime import date
 def menu_principal():
 
     # Inicializa uma variável que vai mostrar as opções do menu principal
-    titulos = ["1- Inserir nova peça", "2- Inserir novo estilo", "3- Remover peça",
+    titulos = ["1- Inserir nova peça", "2- Inserir novo estilo ou adicionar peça a um estilo", "3- Remover peça",
                "4- Remover estilo", "5- Alterar peça", "6- Procurar peça", "7- Finalizar programa"]
 
     print("\n**************** ARMÁRIO VIRTUAL ****************\n")
