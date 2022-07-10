@@ -178,6 +178,8 @@ def opcao_2():
 
         lista_arm = imprimir_arq_arm()
 
+        print(lista_arm)
+
         id_peca = input("Digite o ID da peça a ser adicionada: ")
 
         lista_arm_2 = []
@@ -203,12 +205,40 @@ def opcao_2():
         
         for i in range(len(lista_dic)):
             if lista_dic[i]['NOME '] == " " + nome_estilo:
-                peca = "|" + peca              
-                lista_estilos[i] = lista_estilos[i][:-2] + peca + "\n"
+                peca = " " + peca + "|"       
+                lista_estilos[i] = lista_estilos[i][:-1] + peca + "\n"
 
 
         arq = open("estilos.txt", "w")
         arq.writelines(lista_estilos)
+        arq.close()
+
+
+        lista_armario2 = []
+
+        # Preenchimento da lista
+        for i in range(len(lista_arm)):
+            lista_armario2.append(lista_arm[i].split())
+
+        # For para percorrer a lista de strings e substituir a informação antiga pela nova
+        for i in range(len(lista_armario2)):
+            # Se o ID da peça estiver na linha verificada, então
+            if str(id_peca) in lista_armario2[i][0]:
+                # O elemento da lista na linha i e na coluna cat_alter(característica a ser alterada) irá receber a alteração
+                # através do método replace
+                lista_armario2[i][8] = lista_armario2[i][8].replace(lista_armario2[i][8], nome_estilo)
+
+        # Converte de lista de lista para lista de strings
+        for i in range(len(lista_armario2)):
+            if i == len(lista_armario2) - 1:
+                lista_armario2[i] = " ".join(lista_armario2[i])
+            else:
+                lista_armario2[i] = " ".join(lista_armario2[i]) + "\n"
+
+        # Sobrescreve o arquivo com a informação alterada
+        print(lista_armario2)
+        arq = open("armario.txt", "w")
+        arq.writelines(lista_armario2)
         arq.close()
 
 
@@ -272,7 +302,58 @@ def opcao_3():
 
 # Função para Remoção de estilos
 def opcao_4():
-    print("Esta função não está pronta ainda, você será movido ao menu principal")
+
+    lista_armario = imprimir_arq_arm()
+    
+    arq = open("estilos.txt", "r")
+    estilos = arq.readlines()
+    arq.close()
+
+
+    for i in range(len(estilos)):
+        estilos[i] = estilos[i].split(";")
+
+    for i in range(len(estilos)):
+        print(estilos[i][0])
+
+
+    remov_estilo = input("\nDigite o nome do estilo a ser removido: ")
+
+    for i in range(len(estilos) -1):
+        if remov_estilo in estilos[i][0]:
+            del(estilos[i])
+
+    for i in range(len(estilos)):
+        estilos = ";".join(estilos[i])
+    
+
+    arq = open("estilos.txt", "w")
+    arq.writelines(estilos)
+    arq.close()
+
+
+    lista_armario2 = []
+
+    for i in range(len(lista_armario)):
+        lista_armario2.append(lista_armario[i].split())
+
+
+    for i in range(len(lista_armario2)):
+
+        if str(remov_estilo) in lista_armario2[i][8]:
+            
+            lista_armario2[i][8] = lista_armario2[i][8].replace(lista_armario2[i][8], "-")
+
+    for i in range(len(lista_armario2)):
+        if i == len(lista_armario2) - 1:
+            lista_armario2[i] = " ".join(lista_armario2[i])
+        else:
+            lista_armario2[i] = " ".join(lista_armario2[i]) + "\n"
+
+    arq = open("armario.txt", "w")
+    arq.writelines(lista_armario2)
+    arq.close()
+
     menu_principal()
 
 #----------------------------------------------------
@@ -284,13 +365,13 @@ def opcao_5():
 
     # Lista para as categorias
     cat = ["1- Tipo", "2- Tamanho", "3- Padrao",
-           "4- Cor", "5- Data", "6- Situacao", "7- Preco\n"]
+           "4- Cor", "5- Data", "6- Situacao", "7- Preco", "8- Estilos\n"]
 
     # ID para localizar a peça a ser alterada
     id_alter = int(input("Digite o ID da peça a ser alterada: "))
 
     # Imprimir a lista de categorias
-    for i in range(7):
+    for i in range(8):
         print(cat[i])
 
     # Digitar o número da opção a ser alterada
@@ -300,6 +381,69 @@ def opcao_5():
 
     # Digitar a nova informação que irá substituir a anterior
     alteracao = input("Digite a nova informação: ")
+
+    if cat_alter == 8:
+
+        lista_armario2 = []
+        for i in range(len(lista_armario)):
+            lista_armario2.append(lista_armario[i].split())
+
+        for i in range(len(lista_armario2)):
+            if str(id_alter) in lista_armario2[i][0]:
+                estilo_alter = lista_armario2[i][8]
+            
+
+        arq = open("estilos.txt", "r")
+        lista_estilos = arq.readlines()
+        arq.close()
+
+        lista_dic = []
+        for i in lista_estilos:
+            dictionary = dict(subString.split("=") for subString in i.split(";"))
+            lista_dic.append(dictionary)
+
+        for i in range (len(lista_dic)):
+            if " " + estilo_alter == lista_dic[i]["NOME "]:
+                dic = lista_dic[i]
+                dic_pecas = dic[" PECAS "]
+                dic_pecas = dic_pecas.split("|")
+                for j in range(len(dic_pecas)):
+                    dic_pecas[j] = dic_pecas[j].split()
+
+        dic_pecas.pop(-1)
+
+        for i in range(len(dic_pecas)):
+            if dic_pecas[i][0] == str(id_alter):
+                del(dic_pecas[i])
+                break
+        
+        dic_pecas2 = ""
+        for i in range(len(dic_pecas)):
+            dic_pecas = " ".join(dic_pecas[i])
+            dic_pecas = dic_pecas + "|"
+            dic_pecas2 = dic_pecas2 + dic_pecas
+        dic_pecas = dic_pecas2
+
+        dic[" PECAS "] = dic_pecas
+
+        for i in range (len(lista_dic)):
+            if " " + estilo_alter == lista_dic[i]["NOME "]:
+                lista_dic[i] = dic
+
+        
+        new_list = []
+        for i in range(len(lista_dic)):
+            elemento_new_list = "NOME = "
+            elemento_new_list = elemento_new_list + lista_dic[i]["NOME "] + ";"
+            elemento_new_list = elemento_new_list + " CONTADOR = " + lista_dic[i][" CONTADOR "] + ";"
+            elemento_new_list = elemento_new_list + " " + lista_dic[i][" PECAS "]
+            new_list.append(elemento_new_list)
+
+        
+        arq = open("estilos.txt", "w")
+        arq.writelines(new_list)
+        arq.close()
+        
 
     # Criação de uma lista para conter todo o armário em forma de lista de strings
     lista_armario2 = []
@@ -324,10 +468,11 @@ def opcao_5():
             lista_armario2[i] = " ".join(lista_armario2[i]) + "\n"
 
     # Sobrescreve o arquivo com a informação alterada
-    print(lista_armario2)
     arq = open("armario.txt", "w")
     arq.writelines(lista_armario2)
     arq.close()
+
+
 
     # While para tratar as respostas do usuário
     while True:
