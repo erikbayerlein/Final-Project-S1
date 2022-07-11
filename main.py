@@ -675,6 +675,7 @@ def opcao_6():
 
         # Se o padrão informado conter nas linhas com coluna fixada, irá armazenar a linha toda em uma nova lista
         if sit.lower() == "ficar":
+            sit = sit.lower()
             lista_armario2 = []
             for i in range(len(lista_arm)):
                 lista_armario2.append(lista_arm[i].split())
@@ -697,6 +698,7 @@ def opcao_6():
 
         # Se o padrão informado conter nas linhas com coluna fixada, irá armazenar a linha toda em uma nova lista
         elif sit.lower() == "venda":
+            sit = sit.lower()
             lista_armario2 = []
             for i in range(len(lista_arm)):
                 lista_armario2.append(lista_arm[i].split())
@@ -707,64 +709,71 @@ def opcao_6():
                 if sit in lista_armario2[i][6]:
                     lista_sit_filt.append(lista_armario2[i])
 
-            print(lista_sit_filt)
-
-
+            # SORT CORRIGIDO
             lista_precos = []
             for i in range(len(lista_sit_filt)):
                 lista_precos.append(float(lista_sit_filt[i][7]))
 
-            #PARAMOS AQUI E PRECISAMOS CONSERTAR ORDEM DE VENDA E DATA
+            lista_precos.sort()
             lista_precos = sorted(lista_precos)
-            l = []
-            '''for i in range(len(lista_precos)):
-                menor_preco = lista_precos[i]
-                for j in range(len(lista_precos)):
-                    if lista_precos[j] <= menor_preco:
-                        menor_preco = lista_precos[j]
-                        l.append(menor_preco)'''
-
             lista_ordem = []
-            for i in range(len(lista_sit_filt)):
-                if lista_precos[i] == float(lista_sit_filt[i][7]):
-                    print(lista_sit_filt[i][7])
-                    lista_ordem.append(lista_sit_filt[i])
-                
-
-            print(lista_ordem)
-            print(lista_ordem)
 
             for i in range(len(lista_sit_filt)):
-                lista_ordem[i] = " ".join(lista_ordem[i])
+                for j in range(len(lista_sit_filt)):
+                    if lista_precos[i] == float(lista_sit_filt[j][7]):
+                        lista_ordem.append(lista_sit_filt[j])
 
-            print("\n")
+            for i in range(len(lista_ordem)):
+                lista_ordem[i] = (" ".join(lista_ordem[i]))
 
             print("ID Tipo Tamanho Padrao Cor Data Situacao Preco Estilos")
             for i in range(len(lista_ordem)):
                 print(lista_ordem[i])
 
+        # ELIF DE DOAÇÃO
+        elif sit.lower() == "doacao":
+            sit = sit.lower()
+            lista_armario2 = []
+            for i in range(len(lista_arm)):
+                lista_armario2.append(lista_arm[i].split())
 
+            lista_sit_filt = []
+            for i in range(len(lista_armario2)):
+                if sit in lista_armario2[i][6]:
+                    lista_sit_filt.append(lista_armario2[i])
+
+            print(lista_sit_filt)
+
+            lista_data = []
+            for i in range(len(lista_sit_filt)):
+                lista_data.append(lista_sit_filt[i][5])
+            print(lista_data)
+
+            for i in range(len(lista_data)):
+                lista_data[i] = lista_data[i].split('/')
+            print(lista_data)
+
+            lista_data_comp = []
+            for i in range(len(lista_data)):
+                print(lista_data[i][0], lista_data[i][1], lista_data[i][2])
+                result = int(lista_data[i][0]) + (int(lista_data[i][1]) * 100) + (int(lista_data[i][2]) * 1000)
+                lista_data_comp.append(int(result))
+
+            print(lista_data_comp)
+
+            lista_data_comp.sort(reverse = True)
+            print(lista_data_comp)
+            print(lista_data)
+            lista_ordem = []
             '''for i in range(len(lista_sit_filt)):
-                for j in range(1, len(lista_sit_filt)):
-                    if i == len(lista_sit_filt):
-                        break
-                    elif float(lista_sit_filt[i][7]) >= float(lista_sit_filt[j][7]):
-                        comp_indice = '''
-
-
-            #APAGAR
-            '''i = 0
-            while True:
-                for j in range(len(1, lista_sit_filt)):
-                    if j == len(lista_sit_filt):
-                        break
-                    elif float(lista_sit_filt[0][7]) >= float(lista_sit_filt[j][7]):
-                        lista_sit_filt.insert(j, lista_sit_filt[0])
-                        lista_sit_filt.pop(0)
-                        j += 1
-                    else:
-                        break'''
-
+                for j in range(len(lista_ordem)):
+                    print(lista_data_comp[i])
+                    print(int(lista_data[j][0]) + (int(lista_data[j][1]) * 100) + (int(lista_data[j][2]) * 1000))
+                    print("\n")
+                    if lista_data_comp[i] == int(lista_data[j][0]) + (int(lista_data[j][1]) * 100) + (int(lista_data[j][2]) * 1000):
+                        lista_ordem.append(lista_data[j])
+                        print('mae entrei')
+            print(lista_ordem)'''
 
 
             '''for i in range(len(lista_sit_filt)):
@@ -776,32 +785,10 @@ def opcao_6():
             for i in range(len(lista_sit_filt)):
                 print(lista_sit_filt[i])'''
 
-
-
-        elif sit.lower() == "doacao":
-            lista_armario2 = []
-            for i in range(len(lista_arm)):
-                lista_armario2.append(lista_arm[i].split())
-
-            lista_sit_filt = []
-            for i in range(len(lista_armario2)):
-                if sit in lista_armario2[i][6]:
-                    lista_sit_filt.append(lista_armario2[i])
-
-
-            for i in range(len(lista_sit_filt)):
-                lista_sit_filt[i] = " ".join(lista_sit_filt[i])
-
-            print("\n")
-
-            print("ID Tipo Tamanho Padrao Cor Data Situacao Preco Estilos")
-            for i in range(len(lista_sit_filt)):
-                print(lista_sit_filt[i])
-
     
 
-
-    menu_principal()
+    exit()
+    #menu_principal()
 
 #----------------------------------------------------
 
