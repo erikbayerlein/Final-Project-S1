@@ -444,6 +444,7 @@ def opcao_5():
             if dic_pecas[i][0] == str(id_alter):
                 del(dic_pecas[i])
                 break
+
         # Adiciona a peça ao novo estilo informado
         dic_pecas2 = ""
         for i in range(len(dic_pecas)):
@@ -538,15 +539,15 @@ def opcao_6():
     lista_arm = imprimir_arq_arm()
 
     # Print das opções de filtragem
-    titulos = ["1- Tipo", "2- Tamanho", "3- Padrão", "4- Situação"]
+    titulos = ["1- Tipo", "2- Tamanho", "3- Padrão", "4- Situação", "5- Listar estilos"]
 
-    for i in range(4):
+    for i in range(5):
         print(titulos[i])
 
     # Validação da entrada do usuário
     while True:
         opcao = int(input("Digite a opção a ser filtrada: "))
-        if opcao < 1 or opcao > 4:
+        if opcao < 1 or opcao > 5:
             print("Entrada inválida. Digite um número válido.\n")
         else:
             break
@@ -732,69 +733,150 @@ def opcao_6():
 
         # ELIF DE DOAÇÃO
         elif sit.lower() == "doacao":
+
             sit = sit.lower()
             lista_armario2 = []
             for i in range(len(lista_arm)):
                 lista_armario2.append(lista_arm[i].split())
+
 
             lista_sit_filt = []
             for i in range(len(lista_armario2)):
                 if sit in lista_armario2[i][6]:
                     lista_sit_filt.append(lista_armario2[i])
 
-            print(lista_sit_filt)
 
             lista_data = []
             for i in range(len(lista_sit_filt)):
                 lista_data.append(lista_sit_filt[i][5])
-            print(lista_data)
+
 
             for i in range(len(lista_data)):
                 lista_data[i] = lista_data[i].split('/')
-            print(lista_data)
+
 
             lista_data_comp = []
             for i in range(len(lista_data)):
-                print(lista_data[i][0], lista_data[i][1], lista_data[i][2])
                 result = int(lista_data[i][0]) + (int(lista_data[i][1]) * 100) + (int(lista_data[i][2]) * 1000)
                 lista_data_comp.append(int(result))
 
-            print(lista_data_comp)
 
             lista_data_comp.sort(reverse = True)
-            print(lista_data_comp)
-            print(lista_data)
+
+
             lista_ordem = []
-            '''for i in range(len(lista_sit_filt)):
-                for j in range(len(lista_ordem)):
-                    print(lista_data_comp[i])
-                    print(int(lista_data[j][0]) + (int(lista_data[j][1]) * 100) + (int(lista_data[j][2]) * 1000))
-                    print("\n")
+            for i in range(len(lista_data)):
+                for j in range(len(lista_data)):
                     if lista_data_comp[i] == int(lista_data[j][0]) + (int(lista_data[j][1]) * 100) + (int(lista_data[j][2]) * 1000):
                         lista_ordem.append(lista_data[j])
-                        print('mae entrei')
-            print(lista_ordem)'''
 
 
-            '''for i in range(len(lista_sit_filt)):
-                lista_sit_filt[i] = " ".join(lista_sit_filt[i])
+            for i in range(len(lista_ordem)):
+                lista_ordem[i] = "/".join(lista_ordem[i])
+
+
+            lista_data_dec = []
+            for i in range(len(lista_sit_filt)):
+                for j in range(len(lista_sit_filt)):
+                    if lista_ordem[i] == lista_sit_filt[j][5]:
+                        lista_data_dec.append(lista_sit_filt[j])
+            
+
+            for i in range(len(lista_data_dec)):
+                lista_data_dec[i] = " ".join(lista_data_dec[i])
 
             print("\n")
 
             print("ID Tipo Tamanho Padrao Cor Data Situacao Preco Estilos")
-            for i in range(len(lista_sit_filt)):
-                print(lista_sit_filt[i])'''
+            for i in range(len(lista_data_dec)):
+                print(lista_data_dec[i])
 
     
+    #elif opcao == 5:
 
-    exit()
-    #menu_principal()
+
+
+    menu_principal()
 
 #----------------------------------------------------
 
 # Função para selecionar estilo
 def opcao_7():
-    print ("Função ainda não disponível")
+
+    arq = open("estilos.txt", "r")
+    estilos = arq.readlines()
+    arq.close()
+
+
+    lista_est_nome = []
+    for i in range(len(estilos)):
+        lista_est_nome.append(estilos[i].split(";"))
+
+    # Print na lista dos estilos
+    for i in range(len(lista_est_nome)):
+        print(lista_est_nome[i][0])
+
+
+    nome = input("Digite o nome do estilo a ser selecionado: ")
+
+
+    lista_dic = []
+    for i in estilos:
+        dictionary = dict(subString.split("=") for subString in i.split(";"))
+        lista_dic.append(dictionary)
+
+    # For para pegar as peças do estilo que sofrerá uma alteração e formatá-la de modo que possamos manipular
+    for i in range (len(lista_dic)):
+        if " " + nome == lista_dic[i]["NOME "]:
+            dic = lista_dic[i]
+            dic_pecas = dic[" PECAS "]
+        
+
+    print("ID Tipo Tamanho Padrao Cor Data Situacao Preco")
+    dic_pecas = dic_pecas.split("|")
+    for i in range(len(dic_pecas)):
+        print(dic_pecas[i])
+
+    val_resp = ["sim", "não", "nao"]
+
+    while True:
+        resposta = input("Você selecionou o estilo correto? ")
+        if resposta.lower() not in val_resp:
+            print("Entrada inválida. Digite sim ou não.\n")
+        else:
+            break
+
+    if resposta in val_resp[1:]:
+        opcao_7()
+
+    else:
+        for i in range (len(lista_dic)):
+            if " " + nome == lista_dic[i]["NOME "]:
+                cont = int(lista_dic[i][" CONTADOR "])
+                cont += 1
+                lista_dic[i][" CONTADOR "] = str(cont)
+
+        new_list = []
+        for i in range(len(lista_dic)):
+            elemento_new_list = "NOME ="
+            elemento_new_list = elemento_new_list + lista_dic[i]["NOME "] + ";"
+            elemento_new_list = elemento_new_list + " CONTADOR =" + lista_dic[i][" CONTADOR "] + ";"
+            elemento_new_list = elemento_new_list + " PECAS =" + lista_dic[i][" PECAS "]
+            new_list.append(elemento_new_list)
+
+        
+        arq = open("estilos.txt", "w")
+        arq.writelines(new_list)
+        arq.close()
+
+        
+
+    
+
+
+    
+
+
 
 
 ################# ################# #################
