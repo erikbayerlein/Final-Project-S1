@@ -10,17 +10,17 @@ def menu_principal():
 
     # Inicializa uma variável que vai mostrar as opções do menu principal
     titulos = ["1- Inserir nova peça", "2- Inserir novo estilo ou adicionar peça a um estilo", "3- Remover peça",
-               "4- Remover estilo", "5- Alterar peça", "6- Procurar peça", "7- Finalizar programa"]
+               "4- Remover estilo", "5- Alterar peça", "6- Procurar peça", "7- Selecionar estilo", "8- Finalizar programa"]
 
     print("\n**************** ARMÁRIO VIRTUAL ****************\n")
 
-    for i in range(7):
+    for i in range(8):
         print(titulos[i])
 
     #Aqui sera tratada a entrada do usuário quanto a opção escolhida
     while True:
         opcao_escolhida = int(input("\nDigite um número correspondente a opção do menu: "))
-        if opcao_escolhida < 1 or opcao_escolhida > 7:
+        if opcao_escolhida < 1 or opcao_escolhida > 8:
             print("Entrada inválida. Digite um número válido.\n")
         else:
             break
@@ -45,6 +45,9 @@ def menu_principal():
         opcao_6()
 
     elif opcao_escolhida == 7:
+        opcao_7()
+
+    elif opcao_escolhida == 8:
         exit()
 
 #----------------------------------------------------
@@ -505,8 +508,267 @@ def opcao_5():
 
 # Função para realizar busca
 def opcao_6():
-    print("Esta função não está pronta ainda, você será movido ao menu principal")
+
+    lista_arm = imprimir_arq_arm()
+    
+    titulos = ["1- Tipo", "2- Tamanho", "3- Padrão", "4- Situação"]
+
+    for i in range(4):
+        print(titulos[i])
+    
+    while True:
+        opcao = int(input("Digite a opção a ser filtrada: "))
+        if opcao < 1 or opcao > 4:
+            print("Entrada inválida. Digite um número válido.\n")
+        else:
+            break
+
+
+    if opcao == 1:
+
+        arq = open("validacao_opt_1.txt", "r")
+        lista_tipos = arq.readlines()[0].split()
+        arq.close()
+
+        while True:
+            tipo = input("Digite o tipo a ser filtrado: ")
+            if tipo.lower() in lista_tipos:
+                break
+            else:
+                print("Entrada inválida. Informe se é superior, inferior ou calçado!")
+
+
+        lista_armario2 = []
+        for i in range(len(lista_arm)):
+            lista_armario2.append(lista_arm[i].split())
+
+        lista_tipo_filt = []
+        for i in range(len(lista_armario2)):
+            if tipo in lista_armario2[i][1]:
+                lista_tipo_filt.append(lista_armario2[i])
+
+
+        for i in range(len(lista_tipo_filt)):
+            lista_tipo_filt[i] = " ".join(lista_tipo_filt[i])
+
+        print("\n")
+
+        print("ID Tipo Tamanho Padrao Cor Data Situacao Preco Estilos")
+        for i in range(len(lista_tipo_filt)):
+            print(lista_tipo_filt[i])
+               
+    
+    elif opcao == 2:
+
+        lista_tamanho = ["p", "m", "g"]
+
+        while True:
+            tam = input("Digite o tamanho a ser filtrado: ")
+            if tam.lower() in lista_tamanho:
+                break
+            else:
+                print("Entrada inválida. Informe se é p, m ou g!")
+
+
+        lista_armario2 = []
+        for i in range(len(lista_arm)):
+            lista_armario2.append(lista_arm[i].split())
+
+        lista_tam_filt = []
+        for i in range(len(lista_armario2)):
+            if tam in lista_armario2[i][2]:
+                lista_tam_filt.append(lista_armario2[i])
+
+
+        for i in range(len(lista_tam_filt)):
+            lista_tam_filt[i] = " ".join(lista_tam_filt[i])
+
+        print("\n")
+
+        print("ID Tipo Tamanho Padrao Cor Data Situacao Preco Estilos")
+        for i in range(len(lista_tam_filt)):
+            print(lista_tam_filt[i])
+
+
+    elif opcao == 3:
+
+        lista_padrao = ["masculino", "feminino", "unissex"]
+
+        while True:
+            padrao = input("Digite o padrão a ser filtrado: ")
+            if padrao.lower() in lista_padrao:
+                break
+            else:
+                print("Entrada inválida. Informe se é masculino, feminino e unissex!")
+
+
+        lista_armario2 = []
+        for i in range(len(lista_arm)):
+            lista_armario2.append(lista_arm[i].split())
+
+        lista_pad_filt = []
+        for i in range(len(lista_armario2)):
+            if padrao in lista_armario2[i][3]:
+                lista_pad_filt.append(lista_armario2[i])
+
+
+        for i in range(len(lista_pad_filt)):
+            lista_pad_filt[i] = " ".join(lista_pad_filt[i])
+
+        print("\n")
+
+        print("ID Tipo Tamanho Padrao Cor Data Situacao Preco Estilos")
+        for i in range(len(lista_pad_filt)):
+            print(lista_pad_filt[i])
+
+
+    elif opcao == 4:
+
+        arq = open("validacao_opt_1.txt", "r")
+        lista_sit = arq.readlines()[2].split()
+        arq.close()
+
+        while True:
+            sit = input("Digite a situação a ser filtrado: ")
+            if sit.lower() in lista_sit:
+                break
+            else:
+                print("Entrada inválida. Informe se é venda, doação ou ficar!")
+
+
+        if sit.lower() == "ficar":
+            lista_armario2 = []
+            for i in range(len(lista_arm)):
+                lista_armario2.append(lista_arm[i].split())
+
+            lista_sit_filt = []
+            for i in range(len(lista_armario2)):
+                if sit in lista_armario2[i][6]:
+                    lista_sit_filt.append(lista_armario2[i])
+
+
+            for i in range(len(lista_sit_filt)):
+                lista_sit_filt[i] = " ".join(lista_sit_filt[i])
+
+            print("\n")
+
+            print("ID Tipo Tamanho Padrao Cor Data Situacao Preco Estilos")
+            for i in range(len(lista_sit_filt)):
+                print(lista_sit_filt[i])
+
+
+        elif sit.lower() == "venda":
+            lista_armario2 = []
+            for i in range(len(lista_arm)):
+                lista_armario2.append(lista_arm[i].split())
+
+
+            lista_sit_filt = []
+            for i in range(len(lista_armario2)):
+                if sit in lista_armario2[i][6]:
+                    lista_sit_filt.append(lista_armario2[i])
+
+            print(lista_sit_filt)
+
+
+            lista_precos = []
+            for i in range(len(lista_sit_filt)):
+                lista_precos.append(float(lista_sit_filt[i][7]))
+
+            #PARAMOS AQUI E PRECISAMOS CONSERTAR ORDEM DE VENDA E DATA
+            lista_precos = sorted(lista_precos)
+            l = []
+            '''for i in range(len(lista_precos)):
+                menor_preco = lista_precos[i]
+                for j in range(len(lista_precos)):
+                    if lista_precos[j] <= menor_preco:
+                        menor_preco = lista_precos[j]
+                        l.append(menor_preco)'''
+
+            lista_ordem = []
+            for i in range(len(lista_sit_filt)):
+                if lista_precos[i] == float(lista_sit_filt[i][7]):
+                    print(lista_sit_filt[i][7])
+                    lista_ordem.append(lista_sit_filt[i])
+                
+
+            print(lista_ordem)
+            print(lista_ordem)
+
+            for i in range(len(lista_sit_filt)):
+                lista_ordem[i] = " ".join(lista_ordem[i])
+
+            print("\n")
+
+            print("ID Tipo Tamanho Padrao Cor Data Situacao Preco Estilos")
+            for i in range(len(lista_ordem)):
+                print(lista_ordem[i])
+
+
+            '''for i in range(len(lista_sit_filt)):
+                for j in range(1, len(lista_sit_filt)):
+                    if i == len(lista_sit_filt):
+                        break
+                    elif float(lista_sit_filt[i][7]) >= float(lista_sit_filt[j][7]):
+                        comp_indice = '''
+
+
+            #APAGAR
+            '''i = 0
+            while True:
+                for j in range(len(1, lista_sit_filt)):
+                    if j == len(lista_sit_filt):
+                        break
+                    elif float(lista_sit_filt[0][7]) >= float(lista_sit_filt[j][7]):
+                        lista_sit_filt.insert(j, lista_sit_filt[0])
+                        lista_sit_filt.pop(0)
+                        j += 1
+                    else:
+                        break'''
+
+
+
+            '''for i in range(len(lista_sit_filt)):
+                lista_sit_filt[i] = " ".join(lista_sit_filt[i])
+
+            print("\n")
+
+            print("ID Tipo Tamanho Padrao Cor Data Situacao Preco Estilos")
+            for i in range(len(lista_sit_filt)):
+                print(lista_sit_filt[i])'''
+
+
+
+        elif sit.lower() == "doacao":
+            lista_armario2 = []
+            for i in range(len(lista_arm)):
+                lista_armario2.append(lista_arm[i].split())
+
+            lista_sit_filt = []
+            for i in range(len(lista_armario2)):
+                if sit in lista_armario2[i][6]:
+                    lista_sit_filt.append(lista_armario2[i])
+
+
+            for i in range(len(lista_sit_filt)):
+                lista_sit_filt[i] = " ".join(lista_sit_filt[i])
+
+            print("\n")
+
+            print("ID Tipo Tamanho Padrao Cor Data Situacao Preco Estilos")
+            for i in range(len(lista_sit_filt)):
+                print(lista_sit_filt[i])
+
+    
+
+
     menu_principal()
+
+#----------------------------------------------------
+
+# Função para selecionar estilo
+def opcao_7():
+    print ("oi")
 
 
 ################# ################# #################
