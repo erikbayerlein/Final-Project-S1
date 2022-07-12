@@ -575,7 +575,7 @@ def opcao_6():
         else:
             break
 
-    # Se opção 1(TIPO) escolhida
+    # Se opção 1 (TIPO) escolhida
     if opcao == 1:
 
         arq = open("validacao_opt_1.txt", "r")
@@ -612,7 +612,7 @@ def opcao_6():
         for i in range(len(lista_tipo_filt)):
             print(lista_tipo_filt[i])
 
-    # Se opção 2(TAMANHO) escolhida
+    # Se opção 2 (TAMANHO) escolhida
     elif opcao == 2:
 
         lista_tamanho = ["p", "m", "g"]
@@ -647,7 +647,7 @@ def opcao_6():
         for i in range(len(lista_tam_filt)):
             print(lista_tam_filt[i])
 
-    # Se opção 3(PADRÃO) escolhida
+    # Se opção 3 (PADRÃO) escolhida
     elif opcao == 3:
 
         lista_padrao = ["masculino", "feminino", "unissex"]
@@ -682,7 +682,7 @@ def opcao_6():
         for i in range(len(lista_pad_filt)):
             print(lista_pad_filt[i])
 
-    # Se opção 4(SITUAÇÃO) escolhida
+    # Se opção 4 (SITUAÇÃO) escolhida
     elif opcao == 4:
 
         arq = open("validacao_opt_1.txt", "r")
@@ -815,7 +815,7 @@ def opcao_6():
             for i in range(len(lista_data_dec)):
                 print(lista_data_dec[i])
 
-    # Se oopção 5 (ESTILOS) escolhida
+    # Se opção 5 (ESTILOS) escolhida
     elif opcao == 5:
 
         # abre o arquivo estilos.txt e guarda cada linha como uma string na lista estilos
@@ -1228,5 +1228,5 @@ def tratamento_cadastro(j, info):
 
 ################# ################# #################
 
-# Ao inicializar o programa chama a nossa função principal do programa
+# Ao inicializar, o programa chama a nossa função principal do programa
 menu_principal()
