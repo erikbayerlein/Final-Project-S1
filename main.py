@@ -20,10 +20,10 @@ def menu_principal():
     #Aqui sera tratada a entrada do usuário quanto a opção escolhida
     while True:
         opcao_escolhida = int(input("\nDigite um número correspondente a opção do menu: "))
-        if opcao_escolhida < 1 or opcao_escolhida > 8:
-            print("Entrada inválida. Digite um número válido.\n")
-        else:
+        if opcao_escolhida >= 1 and opcao_escolhida <= 8:
             break
+        else:
+            print("Entrada inválida. Digite um número válido.\n")
 
     # IF que seleciona qual função a ser executada
     if opcao_escolhida == 1:
@@ -136,12 +136,11 @@ def opcao_1():
         # Adiciona um espaço após o ID para formatar
         cont_id = cont_id + " "
         list_info.insert(0, cont_id)
+        list_info.insert(8,"-")
 
         # Abre o arquivo e insere a peça
         arquivo_armario = open("armario.txt", "a")
-
         arquivo_armario.write("\n" + "".join(list_info))
-
         arquivo_armario.close()
         
     # Volta ao menu principal
@@ -161,16 +160,16 @@ def opcao_2():
     # Validação de dados
     while True:
         opcao_escolhida = int(input("\nDigite um número correspondente a opção do menu: \n"))
-        if opcao_escolhida < 1 or opcao_escolhida > 3:
-            print("Entrada inválida. Digite um número válido.\n")
-        else:
+        if opcao_escolhida >= 1 and opcao_escolhida <= 3:
             break
+        else:
+            print("Entrada inválida. Digite um número válido.\n")
 
     # Se opção 1 escolhida, o usuário irá criar um novo nome de estilo
     if opcao_escolhida == 1:
 
         nome = input("Digite o nome do estilo: ")
-        new_estilo = f"NOME = {nome}; CONTADOR = 0; PECAS = "
+        new_estilo = f"NOME = {nome.lower()}; CONTADOR = 0; PECAS = "
 
         # Abre o arquivo e adiciona o novo estilo criado
         arq = open("estilos.txt", "a")
@@ -182,12 +181,37 @@ def opcao_2():
     # Se opção 2 escolhida o usuário irá adicionar uma peça em algum dos estilos já criados ou disponíveis
     elif opcao_escolhida == 2:
 
-        # O usuário informa em qual estilo ele quer adicionar a peça
-        nome_estilo = input("Em qual estilo você gostaria de adicionar? ")
+        # le e guarda o arquivo estilos.txt em nome_estilos
+        arq = open("estilos.txt", "r")
+        nomes_estilos = arq.readlines()
+        arq.close()
+
+        # os elementos de nome_estilos são transformados em dicionários e são armazenados em lista_dic
+        lista_dic = []
+        for i in nomes_estilos:
+            dictionary = dict(subString.split("=") for subString in i.split(";"))
+            lista_dic.append(dictionary)
+        
+        # lista_comp_nomes recebe apenas os nomes dos estilos
+        lista_comp_nomes = []
+        for i in range(len(lista_dic)):
+            lista_comp_nomes.append(lista_dic[i]["NOME "])
+
+
+        # while true para verificar a existência do nome dentro de lista_comp_nomes
+        while True:
+            # Pede a entrada do usuário para saber qual estilo ele quer remover
+            nome_estilo = input("Em qual estilo você gostaria de adicionar? ")
+            if " " + nome_estilo.lower() in lista_comp_nomes:
+                break
+            else:
+                print("Digite um nome de estilo válido.")
+                print(*lista_comp_nomes)
+
+        print("\n")
 
         lista_arm = imprimir_arq_arm()
 
-        print(lista_arm)
 
         # Agora ele informa o ID da peça que passará a ser daquele estilo
         id_peca = input("Digite o ID da peça a ser adicionada: ")
@@ -214,12 +238,23 @@ def opcao_2():
         for i in lista_estilos:
             dictionary = dict(subString.split("=") for subString in i.split(";"))
             lista_dic.append(dictionary)
+
+        # se o estilo referido é o ultimo
+        if lista_dic[-1]['NOME '] == " " + nome_estilo:     
+            # For para adicionar a peça ao estilo informado
+            for i in range(len(lista_dic)):
+                if lista_dic[i]['NOME '] == " " + nome_estilo:
+                    peca = " " + peca + "|"       
+                    lista_estilos[i] = lista_estilos[i][:-1] + peca
         
-        # For para adicionar a peça ao estilo informado
-        for i in range(len(lista_dic)):
-            if lista_dic[i]['NOME '] == " " + nome_estilo:
-                peca = " " + peca + "|"       
-                lista_estilos[i] = lista_estilos[i][:-1] + peca + "\n"
+        # se o estilo referido não é o útilmo
+        else:
+            # For para adicionar a peça ao estilo informado
+            for i in range(len(lista_dic)):
+                if lista_dic[i]['NOME '] == " " + nome_estilo:
+                    peca = " " + peca + "|"       
+                    lista_estilos[i] = lista_estilos[i][:-1] + peca + "\n"
+
 
         # Sobrescreve o arquivo com a peça já adicionada
         arq = open("estilos.txt", "w")
@@ -249,7 +284,6 @@ def opcao_2():
                 lista_armario2[i] = " ".join(lista_armario2[i]) + "\n"
 
         # Sobrescreve o arquivo com a informação alterada
-        print(lista_armario2)
         arq = open("armario.txt", "w")
         arq.writelines(lista_armario2)
         arq.close()
@@ -257,6 +291,7 @@ def opcao_2():
 
         opcao_2()
 
+    # Se opção 3 escolhida, volta ao menu principal
     elif opcao_escolhida == 3:
         menu_principal()
 
@@ -264,12 +299,35 @@ def opcao_2():
 
 # Função para Remoção de dados
 def opcao_3():
+
     # Chama a função para imprimir o arquivo
     lista_armario = imprimir_arq_arm()
 
-    # Pede o ID da peça a ser removida
-    remov_id = int(input("Digite o ID da peça a ser removida: "))
+    # Abre o arquivo e o armazena em lista_trat
+    arq = open("armario.txt", "r")
+    lista_trat = arq.readlines()
+    arq.close()
 
+    # lista_trat recebe as linhas divididas
+    for i in range(len(lista_trat)):
+        lista_trat[i] = lista_trat[i].split()
+
+    # salva apenas os IDs de cada roupa
+    for i in range(len(lista_trat)):
+        lista_trat[i] = lista_trat[i][0]
+        lista_trat[i].strip()
+    
+    # pop na string "ID"
+    lista_trat.pop(0)
+
+    # while true verificando a entrada com a lista de IDs existentes
+    while True:
+        remov_id = int(input("Digite o ID da peça a ser removida: "))
+        if str(remov_id) in lista_trat:
+            break
+        else:
+            print("Entrada inválida. Digite um ID existente.")
+            print(*lista_trat)
 
     # For para percorrer as informações
     for i in range(len(lista_armario) - 1):
@@ -293,10 +351,10 @@ def opcao_3():
     arq.writelines(lista_armario)
     arq.close()
 
+    # Append da peça retirada no histórico
     arq = open("historico.txt", "a")
     arq.write(historico)
     arq.close()
-
 
     # Pergunta se o usuário deseja excluir outra peça e valida a resposta
     while True:
@@ -309,6 +367,7 @@ def opcao_3():
     # Se não, vai para o menu principal
     if remover_outra == 'nao' or remover_outra == 'não':
         menu_principal()
+
     # Se sim, repete a função opcao_3()
     else:
         opcao_3()
@@ -325,6 +384,11 @@ def opcao_4():
     estilos = arq.readlines()
     arq.close()
 
+    # Abre o arquivo e o armazena na variavel nome_estilos para o tratamento
+    arq = open("estilos.txt", "r")
+    nomes_estilos = arq.readlines()
+    arq.close()
+
     # Split na lista de estilos
     for i in range(len(estilos)):
         estilos[i] = estilos[i].split(";")
@@ -333,10 +397,27 @@ def opcao_4():
     for i in range(len(estilos)):
         print(estilos[i][0])
 
-    # Pede a entrada do usuário para saber qual estilo ele quer remover
-    remov_estilo = input("\nDigite o nome do estilo a ser removido: ")
+    # os elementos de nome_estilos são transformados em dicionários e são armazenados em lista_dic
+    lista_dic = []
+    for i in nomes_estilos:
+        dictionary = dict(subString.split("=") for subString in i.split(";"))
+        lista_dic.append(dictionary)
 
-    ######### NECESSÁRIO TRATAMENTO DE DADOS #########
+    #lista_comp_nomes recebe apenas os nomes dos estilos
+    lista_comp_nomes = []
+    for i in range(len(lista_dic)):
+        lista_comp_nomes.append(lista_dic[i]["NOME "])
+
+    # while true para verificar a existência do nome dentro de lista_comp_nomes
+    while True:
+        # Pede a entrada do usuário para saber qual estilo ele quer remover
+        remov_estilo = input("\nDigite o nome do estilo a ser removido: ")
+        if " " + remov_estilo.lower() in lista_comp_nomes:
+            break
+        else:
+            print("Digite um nome de estilo válido.")
+            print(*lista_comp_nomes)
+    
     # For para procurar o estilo a ser removido e excluir a linha dele
     for i in range(len(estilos) -1):
         if remov_estilo in estilos[i][0]:
@@ -344,8 +425,8 @@ def opcao_4():
 
     # Transforma ele de volta em lista de strings
     for i in range(len(estilos)):
-        estilos = ";".join(estilos[i])
-    
+        estilos[i] = ";".join(estilos[i])
+
     # Abre o arquivo e sobrescreve com as alterações
     arq = open("estilos.txt", "w")
     arq.writelines(estilos)
@@ -386,21 +467,47 @@ def opcao_5():
     # Mostrar as peças presentes no armário
     lista_armario = imprimir_arq_arm()
 
-    # Lista para as categorias
-    cat = ["1- Tipo", "2- Tamanho", "3- Padrao",
-           "4- Cor", "5- Data", "6- Situacao", "7- Preco", "8- Estilos\n"]
+    # Abre o arquivo e o armazena em lista_trat
+    arq = open("armario.txt", "r")
+    lista_trat = arq.readlines()
+    arq.close()
 
-    # ID para localizar a peça a ser alterada
-    id_alter = int(input("Digite o ID da peça a ser alterada: "))
+    # Lista para as categorias
+    cat = ["1- Tipo", "2- Tamanho", "3- Padrão",
+           "4- Cor", "5- Data", "6- Situação", "7- Preço", "8- Estilos\n"]
+
+    # lista_trat recebe as linhas divididas
+    for i in range(len(lista_trat)):
+        lista_trat[i] = lista_trat[i].split()
+
+    # salva apenas os IDs de cada roupa
+    for i in range(len(lista_trat)):
+        lista_trat[i] = lista_trat[i][0]
+        lista_trat[i].strip()
+    
+    # pop na string "ID"
+    lista_trat.pop(0)
+
+    # while true verificando a entrada com a lista de IDs existentes
+    while True:
+        id_alter = int(input("Digite o ID da peça a ser alterada: "))
+        if str(id_alter) in lista_trat:
+            break
+        else:
+            print("Entrada inválida. Digite um ID existente.")
+            print(*lista_trat)
 
     # Imprimir a lista de categorias
     for i in range(8):
         print(cat[i])
 
-    # Digitar o número da opção a ser alterada
-    cat_alter = int(input("Digite o número da opção a ser alterada: \n"))
-
-    #Situção e preco
+    while True:
+        # Digitar o número da opção a ser alterada
+        cat_alter = int(input("Digite o número da opção a ser alterada: \n"))
+        if cat_alter >= 1 and cat_alter <= 8:
+            break
+        else:
+            print("Entrada inválida. Escolhe uma das opções.")
 
     # Digitar a nova informação que irá substituir a anterior
     alteracao = input("Digite a nova informação: ")
@@ -416,8 +523,9 @@ def opcao_5():
         for i in range(len(lista_armario2)):
             if str(id_alter) in lista_armario2[i][0]:
                 estilo_alter = lista_armario2[i][8]
-            
-
+                break
+        
+        # lê o arquivo estilos
         arq = open("estilos.txt", "r")
         lista_estilos = arq.readlines()
         arq.close()
@@ -428,7 +536,7 @@ def opcao_5():
             dictionary = dict(subString.split("=") for subString in i.split(";"))
             lista_dic.append(dictionary)
 
-        # For para pegar as peças do estilo que sofrerá uma alteração e formatá-la de modo que possamos manipular
+        # For para pegar as peças do estilo que sofreram uma alteração e formatá-la de modo que possamos manipular
         for i in range (len(lista_dic)):
             if " " + estilo_alter == lista_dic[i]["NOME "]:
                 dic = lista_dic[i]
@@ -437,21 +545,35 @@ def opcao_5():
                 for j in range(len(dic_pecas)):
                     dic_pecas[j] = dic_pecas[j].split()
 
+
         dic_pecas.pop(-1)
 
-        # Depois de alterada vai excluir a peça do estilo anterior
+
+        # Depois de alterada vai excluir a peça do estilo
         for i in range(len(dic_pecas)):
             if dic_pecas[i][0] == str(id_alter):
                 del(dic_pecas[i])
                 break
 
-        # Adiciona a peça ao novo estilo informado
+        for i in range(len(dic_pecas)):
+            # adiciona uma "|", na ultima peça, se a peça não for a última
+            if i == len(dic_pecas) - 1:
+                dic_pecas[i].insert(8, "|\n")
+            # adiciona um "|\n", na ultima peca, se a peça não for a última
+            else:
+                dic_pecas[i].insert(8, "|")
+
+        # transforma em uma lista com as strings restantes
+        for i in range(len(dic_pecas)):
+            dic_pecas[i] = " ".join(dic_pecas[i])
+
+        # concatenação das peças em uma variável auxiliar (dic_pecas2)
         dic_pecas2 = ""
         for i in range(len(dic_pecas)):
-            dic_pecas = " ".join(dic_pecas[i])
-            dic_pecas = dic_pecas + " |"
-            dic_pecas2 = dic_pecas2 + dic_pecas
+            dic_pecas2 = dic_pecas2 + " " + dic_pecas[i]
+
         dic_pecas = dic_pecas2
+
 
         dic[" PECAS "] = dic_pecas
 
@@ -469,12 +591,12 @@ def opcao_5():
             elemento_new_list = elemento_new_list + " PECAS =" + lista_dic[i][" PECAS "]
             new_list.append(elemento_new_list)
 
-
+        # cria uma lista provisória (prov_list) que receberá um split de cada elemento de new_list
         prov_list = []
         for i in range(len(new_list)):
             prov_list.append(new_list[i].split())
 
-
+        # cria a lista id_trat para tratar a lista provisória, devido a erros na separação
         id_trat = []
         for i in range(len(prov_list)):
             if prov_list[i][7] == "=":
@@ -486,13 +608,28 @@ def opcao_5():
                 prov_list[i].insert(7, str(id_trat))
                 prov_list[i].insert(7, "=")
 
-
+        # new_list recebe a prov_list, já tratada, em forma de string
         for i in range(len(prov_list)):
             new_list[i] = " ".join(prov_list[i])
 
-    
+        # tratamento para não criar uma linha extra no arquivo
+        ult_linha = new_list[-1]
+        ult_linha = ult_linha.split(" ")
+
+        # tira a o "|\n"
+        ult_linha.pop(-1)
+        # adiciona o "|"
+        ult_linha.append("|")
+        # transforma em string
+        ult_linha = " ".join(ult_linha)
+
+        # retira a string errada
+        new_list.pop(-1)
+        # append da linha correta
+        new_list.append(ult_linha)
 
 
+        # sobrescreve o arquivo com a lista
         arq = open("estilos.txt", "w")
         arq.writelines(new_list)
         arq.close()
@@ -524,8 +661,6 @@ def opcao_5():
     arq = open("armario.txt", "w")
     arq.writelines(lista_armario2)
     arq.close()
-
-
 
     # While para tratar as respostas do usuário
     while True:
@@ -562,22 +697,23 @@ def opcao_6():
     lista_arm = imprimir_arq_arm()
 
     # Print das opções de filtragem
-    titulos = ["1- Tipo", "2- Tamanho", "3- Padrão", "4- Situação", "5- Listar estilos"]
+    titulos = ["1- Tipo", "2- Tamanho", "3- Padrão", "4- Situação", "5- Listar estilos", "6- Listar peças doadas"]
 
-    for i in range(5):
+    for i in range(6):
         print(titulos[i])
 
     # Validação da entrada do usuário
     while True:
         opcao = int(input("Digite a opção a ser filtrada: "))
-        if opcao < 1 or opcao > 5:
-            print("Entrada inválida. Digite um número válido.\n")
-        else:
+        if opcao >= 1 and opcao <= 6:
             break
+        else:
+            print("Entrada inválida. Digite um número válido.\n")
 
     # Se opção 1 (TIPO) escolhida
     if opcao == 1:
 
+        # le a primeira linha do arquivo validacao_opt_1.txt 
         arq = open("validacao_opt_1.txt", "r")
         lista_tipos = arq.readlines()[0].split()
         arq.close()
@@ -685,6 +821,7 @@ def opcao_6():
     # Se opção 4 (SITUAÇÃO) escolhida
     elif opcao == 4:
 
+        # le a terceira linha do arquivo validacao_opt_1.txt 
         arq = open("validacao_opt_1.txt", "r")
         lista_sit = arq.readlines()[2].split()
         arq.close()
@@ -723,40 +860,46 @@ def opcao_6():
         # Se o padrão informado conter nas linhas com coluna fixada, irá armazenar a linha toda em uma nova lista
         elif sit.lower() == "venda":
 
+            # separa a lista_arm e guarda em lista_armario2
             sit = sit.lower()
             lista_armario2 = []
             for i in range(len(lista_arm)):
                 lista_armario2.append(lista_arm[i].split())
 
-
+            # lista_sit_filt recebe a linha que possui venda
             lista_sit_filt = []
             for i in range(len(lista_armario2)):
                 if sit in lista_armario2[i][6]:
                     lista_sit_filt.append(lista_armario2[i])
 
-            # SORT CORRIGIDO
+            # lista_precos recebe o valor do preco em float
             lista_precos = []
             for i in range(len(lista_sit_filt)):
                 lista_precos.append(float(lista_sit_filt[i][7]))
 
+            # lista_precos é ordenada em forma crescente
             lista_precos.sort()
             lista_precos = sorted(lista_precos)
-            lista_ordem = []
 
+            # lista_ordem recebe as linhas, do maior valor de preço para o menor, de acordo com a lista_precos
+            lista_ordem = []
             for i in range(len(lista_sit_filt)):
                 for j in range(len(lista_sit_filt)):
                     if lista_precos[i] == float(lista_sit_filt[j][7]):
                         lista_ordem.append(lista_sit_filt[j])
 
+            # junta os elementos de lista_ordem
             for i in range(len(lista_ordem)):
                 lista_ordem[i] = (" ".join(lista_ordem[i]))
 
+            # print em lista_ordem
             print("ID Tipo Tamanho Padrao Cor Data Situacao Preco Estilos")
             for i in range(len(lista_ordem)):
                 print(lista_ordem[i])
 
         # ELIF DE DOAÇÃO
         elif sit.lower() == "doacao":
+
 
             sit = sit.lower()
             lista_armario2 = []
@@ -809,7 +952,9 @@ def opcao_6():
             for i in range(len(lista_data_dec)):
                 lista_data_dec[i] = " ".join(lista_data_dec[i])
 
+
             print("\n")
+
 
             print("ID Tipo Tamanho Padrao Cor Data Situacao Preco Estilos")
             for i in range(len(lista_data_dec)):
@@ -854,6 +999,42 @@ def opcao_6():
         for i in range(len(lista_ordem)):
             print(lista_ordem[i][" CONTADOR "], lista_ordem[i]["NOME "])
 
+    # Se opção 6 (LISTAR PEÇAS DOADAS) escolhida
+    elif opcao == 6:
+        
+        # abre o arquivo historico.txt e armazena as cada linha como um elemento da lista historico
+        arq = open("historico.txt", "r")
+        historico = arq.readlines()
+        arq.close()
+
+        # retira os parametros
+        historico.pop(0)
+
+        # separa a lista historico em uma matriz de strings
+        lista_hist2 = []
+        for i in range(len(historico)):
+            lista_hist2.append(historico[i].split())
+
+        # busca a palavra "doacao" dentro da lista historico
+        lista_hist_filt = []
+        for i in range(len(lista_hist2)):
+            if "doacao" in lista_hist2[i][6]:
+                # quando achada, guarda a linha na lista_hist_filt
+                lista_hist_filt.append(lista_hist2[i])
+
+        # junta os elementos com espaços, criando uma lista de strings
+        for i in range(len(lista_hist_filt)):
+            lista_hist_filt[i] = " ".join(lista_hist_filt[i])
+
+        # \n para melhor organização
+        print("\n")
+
+        # print nos parametros e na lista filtrada
+        print("ID Tipo Tamanho Padrao Cor Data Situacao Preco Estilos Para")
+        for i in range(len(lista_hist_filt)):
+            print(lista_hist_filt[i])
+
+
     # volta para o menu principal
     menu_principal()
 
@@ -862,11 +1043,28 @@ def opcao_6():
 # Função para selecionar estilo
 def opcao_7():
 
+    # Abre o arquivo e o armazena em estilos
     arq = open("estilos.txt", "r")
     estilos = arq.readlines()
     arq.close()
 
+    # Abre o arquivo e o armazena na variavel nome_estilos para o tratamento
+    arq = open("estilos.txt", "r")
+    nomes_estilos = arq.readlines()
+    arq.close()
 
+    # os elementos de nome_estilos são transformados em dicionários e são armazenados em lista_dic
+    lista_dic = []
+    for i in nomes_estilos:
+        dictionary = dict(subString.split("=") for subString in i.split(";"))
+        lista_dic.append(dictionary)
+
+    #lista_comp_nomes recebe apenas os nomes dos estilos
+    lista_comp_nomes = []
+    for i in range(len(lista_dic)):
+        lista_comp_nomes.append(lista_dic[i]["NOME "])
+
+    # split na lista estilos em ";" e guarda em lista_est_nome
     lista_est_nome = []
     for i in range(len(estilos)):
         lista_est_nome.append(estilos[i].split(";"))
@@ -875,31 +1073,38 @@ def opcao_7():
     for i in range(len(lista_est_nome)):
         print(lista_est_nome[i][0])
 
+    # while true para verificar a existência do nome dentro de lista_comp_nomes
+    while True:
+        # Pede a entrada do usuário para saber qual estilo ele quer remover
+        nome = input("Digite o nome do estilo a ser selecionado: ")
+        if " " + nome.lower() in lista_comp_nomes:
+            break
+        else:
+            print("Digite um nome de estilo válido.")
+            print(*lista_comp_nomes)
 
-    nome = input("Digite o nome do estilo a ser selecionado: ")
-
-
+    # lista_dic recebe dicionarios de estilos como elementos
     lista_dic = []
     for i in estilos:
         dictionary = dict(subString.split("=") for subString in i.split(";"))
         lista_dic.append(dictionary)
 
-    # For para pegar as peças do estilo que sofrerá uma alteração e formatá-la de modo que possamos manipular
+    # For para pegar as peças do estilo que sofreram uma alteração e formatá-la de modo que possamos manipular
     for i in range (len(lista_dic)):
         if " " + nome == lista_dic[i]["NOME "]:
             dic = lista_dic[i]
             dic_pecas = dic[" PECAS "]
         
-
+    # print na dic_pecas
     print("ID Tipo Tamanho Padrao Cor Data Situacao Preco")
     dic_pecas = dic_pecas.split("|")
     for i in range(len(dic_pecas)):
         print(dic_pecas[i])
 
-
+    # lista para verificação de respostas
     val_resp = ["sim", "não", "nao"]
 
-
+    # enquanto a resposta não estiver em val_resp, pedirá novamente
     while True:
         resposta = input("Você selecionou o estilo correto? ")
         if resposta.lower() not in val_resp:
@@ -907,30 +1112,34 @@ def opcao_7():
         else:
             break
 
-
+    # se a resposta for não
     if resposta in val_resp[1:]:
 
+        # tratamento para resp
         while True:
             resp = input("Você gostaria de selecionar outro estilo? ")
             if resp.lower() not in val_resp:
                 print("Entrada inválida. Digite sim ou não.\n")
             else:
                 break
+        # se a resposta for não, volta para o menu principal
         if resp in val_resp[1:]:
             menu_principal()
+        # se a resposta for sim, chama novamente a função
         else:
             opcao_7()
 
-
+    # se a resposta for sim
     else:
 
+        # recebe o contador do estilo escolhido roda +1 e é guardado novamente na chave " CONTADOR "
         for i in range (len(lista_dic)):
             if " " + nome == lista_dic[i]["NOME "]:
                 cont = int(lista_dic[i][" CONTADOR "])
                 cont += 1
                 lista_dic[i][" CONTADOR "] = " " + str(cont) 
 
-
+        # transforma a lista de dicionários em lista de strings
         new_list = []
         for i in range(len(lista_dic)):
             elemento_new_list = "NOME ="
@@ -939,12 +1148,12 @@ def opcao_7():
             elemento_new_list = elemento_new_list + " PECAS =" + lista_dic[i][" PECAS "]
             new_list.append(elemento_new_list)
 
-        
+        # sobrescreve no arquivo estilos.txt com o contador atualizado
         arq = open("estilos.txt", "w")
         arq.writelines(new_list)
         arq.close()
 
-
+        # volta para o menu principal
         menu_principal()
 
 
@@ -1030,13 +1239,17 @@ def alteracao_arm(id_alter, lista_armario2):
 
 # Função para imprimir o arquivo armario.txt
 def imprimir_arq_arm():
+    
+    # guarda a segunda linha do arquivo armario.txt em lista_armario
     arq = open("armario.txt", "r")
 
     lista_armario = arq.readlines()
+    # print em lista armario com a quebra de linha
     print("".join(lista_armario) + "\n")
 
     arq.close()
 
+    # retorna lista_armario para ser manipulada
     return lista_armario
 
 #----------------------------------------------------
@@ -1044,9 +1257,12 @@ def imprimir_arq_arm():
 # Função para o tratamento de data
 def tratamento_data():
 
+    # data_atual recebe a data de hoje, de acordo com a biblioteca datetime
     data_atual = date.today()
+    # transforma a data em string
     data_atual = str(data_atual)
 
+    # transforma o dia, mês e ano em inteiro para comparar
     ano_atual = int(data_atual[0:4])
     mes_atual = int(data_atual[5:7])
     dia_atual = int(data_atual[8:10])
@@ -1054,6 +1270,7 @@ def tratamento_data():
     # Validação do ano
     while True:
         ano = int(input("Digite o ano de aquisição: "))
+        # o ano não pode ser maior que o atual
         if ano <= ano_atual:
             break
         else:
@@ -1140,22 +1357,26 @@ def tratamento_data():
         elif ano == ano_atual and mes == mes_atual and dia > dia_atual:
             print("Entrada inválida. Digite um dia menor válido para o mês %i." %mes)
    
+   # transforma a data em string
     data_aquisicao = str(dia) +"/"+ str(mes) +"/"+ str(ano)
 
+    # retorna a data
     return data_aquisicao
 
 #----------------------------------------------------
 
 # Função para tratar os dados de entrada
 def tratamento_cadastro(j, info):
-    # Tipo
-    # OK
+
+    # Tratamento do tipo
     if j == 0:
 
+        # guarda a primeira linha do arquivo validacao_opt_1.txt em lista_tipos
         arq = open("validacao_opt_1.txt", "r")
         lista_tipos = arq.readlines()[0].split()
         arq.close()
 
+        # enquanto a informação tratada não estiver na lista, pedirá novamente a informação
         info = info.lower().strip()
         while True:
             if info in lista_tipos:
@@ -1165,9 +1386,10 @@ def tratamento_cadastro(j, info):
                 info = input("Digite o tipo da peça: ")
                 info = info.lower().strip()
 
-    # Tamanho
-    # OK
+    # Tratamento do tamanho
     if j == 1:
+
+        # enquanto a informação tratada não for p, m ou g, pedirá novamente a informação
         info = info.lower().strip()
         while True:
             if info == 'p' or info == 'm' or info == 'g':
@@ -1177,9 +1399,10 @@ def tratamento_cadastro(j, info):
                 info = input("Digite o tamanho da peça: ")
                 info = info.lower().strip()
 
-    # Padrão
-    # OK
+    # Tratamento de padrão
     if j == 2:
+
+        # enquanto a informação tratada não for masculino, feminino ou unissex, pedirá novamente a informação
         info = info.lower().strip()
         while True:
             if info == 'masculino' or info == 'feminino' or info == 'unissex':
@@ -1189,34 +1412,35 @@ def tratamento_cadastro(j, info):
                 info = input("Digite o padrão da peça: ")
                 info = info.lower().strip()
 
-    # Cor
-    # OK
+    # Tratamento de cor
     if j == 3:
 
+        # guarda a segunda linha do arquivo validacao_opt_1.txt em lista_tipos
         arq = open("validacao_opt_1.txt", "r")
         lista_cores = arq.readlines()[1].split()
         arq.close()
 
+        # enquanto a informação tratada não for p, m ou g, pedirá novamente a informação
         info = info.lower().strip()
         while True:
             if info in lista_cores:
                 return info
             else:
                 print("Entrada inválida. Informe uma cor presente na lista!\n")
+                # print em lista cores para ver as cores disponíveis
                 print(*lista_cores)
                 info = input("\nDigite a cor da principal da peça: ")
                 info = info.lower().strip()
 
-    # Situação
-    # OK
+    # Tratamento de situação
     if j == 5:
 
+        # guarda a terceira linha do arquivo validacao_opt_1.txt em lista_tipos
         arq = open("validacao_opt_1.txt", "r")
         lista_sit = arq.readlines()[2].split()
         arq.close()
 
-        print(lista_sit)
-
+        # enquanto a informação tratada não for p, m ou g, pedirá novamente a informação
         info = info.lower().strip()
         while True:
             if info in lista_sit:

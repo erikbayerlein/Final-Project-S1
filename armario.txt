@@ -1,6 +1,11 @@
 ID Tipo Tamanho Padrao Cor Data Situacao Preco Estilos
 1 superior p masculino vermelho 8/10/2002 ficar - inverno
-2 inferior m feminino jeans 27/12/1999 doacao - -
-3 calcado g unissex rosa 28/8/2004 venda 20.0 -
+2 inferior m feminino jeans 27/12/1999 doacao - classico
+3 calcado g unissex rosa 28/8/2004 venda 20.0 casual
 4 superior m feminino azul 7/9/2000 doacao - outono
 5 calcado p unissex branco 11/2/2010 venda 50.0 outono
+9 superior m feminino branco 8/7/2021 ficar - casual
+10 inferior g masculino rosa 8/7/2022 ficar - inverno
+11 inferior g feminino rosa 14/10/2020 doacao - inverno
+12 calcado m unissex rosa 17/9/2018 venda ficar - verao
+13 superior p masculino rosa 15/12/2019 venda 100.0 classico
