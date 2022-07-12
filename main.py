@@ -722,6 +722,7 @@ def opcao_6():
 
         # Se o padrão informado conter nas linhas com coluna fixada, irá armazenar a linha toda em uma nova lista
         elif sit.lower() == "venda":
+
             sit = sit.lower()
             lista_armario2 = []
             for i in range(len(lista_arm)):
@@ -814,11 +815,46 @@ def opcao_6():
             for i in range(len(lista_data_dec)):
                 print(lista_data_dec[i])
 
-    
-    #elif opcao == 5:
+    # Se oopção 5 (ESTILOS) escolhida
+    elif opcao == 5:
 
+        # abre o arquivo estilos.txt e guarda cada linha como uma string na lista estilos
+        arq = open("estilos.txt", "r")
+        estilos = arq.readlines()
+        arq.close()
 
+        # lista_dic será uma lista de dicionários dos estilos
+        lista_dic = []
+        for i in estilos:
+            dictionary = dict(subString.split("=") for subString in i.split(";"))
+            lista_dic.append(dictionary)
+        
+        # lista_cont será uma lista contendo apenas os valores dos contadores dos estilos
+        lista_cont = []
+        for i in range(len(lista_dic)):
+            lista_cont.append(int(lista_dic[i][" CONTADOR "]))
+        
+        # sorted, reverse = True para ordenar os contadores de maneira decrescente
+        lista_cont = sorted(lista_cont, reverse = True)
 
+        # lista_ordem terá os dicionários organizados na forma decrescente de contadores
+        lista_ordem = []
+        for i in range(len(lista_dic)):
+            for j in range(len(lista_dic)):
+                # compara os contadores, do maior contador ao o menor contador, de acordo com a lista_cont
+                if lista_cont[i] == int(lista_dic[j][" CONTADOR "]):
+                    # quando achar o maior, o dicionario correspondente será adcionado à lista_ordem
+                    lista_ordem.append(lista_dic[j])
+
+        # \n para organização da saída
+        print("\n")
+
+        # "FREQ NOME" indicam a posição da frequência com que o estilo foi selecionado (contador) e o nome do estilo
+        print("FREQ NOME")
+        for i in range(len(lista_ordem)):
+            print(lista_ordem[i][" CONTADOR "], lista_ordem[i]["NOME "])
+
+    # volta para o menu principal
     menu_principal()
 
 #----------------------------------------------------
