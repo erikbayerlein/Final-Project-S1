@@ -4,4 +4,3 @@ ID Tipo Tamanho Padrao Cor Data Situacao Preco Estilos
 3 calcado g unissex rosa 28/8/2004 venda 20.0 -
 4 superior m feminino azul 7/9/2000 doacao - outono
 5 calcado p unissex branco 11/2/2010 venda 50.0 outono
-6 superior p feminino branco 11/2/2010 venda 40.0 outono

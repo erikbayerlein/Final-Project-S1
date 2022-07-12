@@ -449,7 +449,7 @@ def opcao_5():
         dic_pecas2 = ""
         for i in range(len(dic_pecas)):
             dic_pecas = " ".join(dic_pecas[i])
-            dic_pecas = dic_pecas + "|"
+            dic_pecas = dic_pecas + " |"
             dic_pecas2 = dic_pecas2 + dic_pecas
         dic_pecas = dic_pecas2
 
@@ -463,13 +463,36 @@ def opcao_5():
         # For para converter a lista em dicionarios após as alterações
         new_list = []
         for i in range(len(lista_dic)):
-            elemento_new_list = "NOME = "
+            elemento_new_list = "NOME ="
             elemento_new_list = elemento_new_list + lista_dic[i]["NOME "] + ";"
-            elemento_new_list = elemento_new_list + " CONTADOR = " + lista_dic[i][" CONTADOR "] + ";"
-            elemento_new_list = elemento_new_list + " " + lista_dic[i][" PECAS "]
+            elemento_new_list = elemento_new_list + " CONTADOR =" + lista_dic[i][" CONTADOR "] + ";"
+            elemento_new_list = elemento_new_list + " PECAS =" + lista_dic[i][" PECAS "]
             new_list.append(elemento_new_list)
 
-        
+
+        prov_list = []
+        for i in range(len(new_list)):
+            prov_list.append(new_list[i].split())
+
+
+        id_trat = []
+        for i in range(len(prov_list)):
+            if prov_list[i][7] == "=":
+                prov_list[i][-1] = "|\n"
+            else:
+                id_trat.append(prov_list[i][7].split("="))
+                id_trat = "".join(id_trat[0])
+                prov_list[i].pop(7)
+                prov_list[i].insert(7, str(id_trat))
+                prov_list[i].insert(7, "=")
+
+
+        for i in range(len(prov_list)):
+            new_list[i] = " ".join(prov_list[i])
+
+    
+
+
         arq = open("estilos.txt", "w")
         arq.writelines(new_list)
         arq.close()
@@ -659,7 +682,7 @@ def opcao_6():
         for i in range(len(lista_pad_filt)):
             print(lista_pad_filt[i])
 
-    # Se opção 3(SITUAÇÃO) escolhida
+    # Se opção 4(SITUAÇÃO) escolhida
     elif opcao == 4:
 
         arq = open("validacao_opt_1.txt", "r")
@@ -837,7 +860,9 @@ def opcao_7():
     for i in range(len(dic_pecas)):
         print(dic_pecas[i])
 
+
     val_resp = ["sim", "não", "nao"]
+
 
     while True:
         resposta = input("Você selecionou o estilo correto? ")
@@ -846,15 +871,29 @@ def opcao_7():
         else:
             break
 
+
     if resposta in val_resp[1:]:
-        opcao_7()
+
+        while True:
+            resp = input("Você gostaria de selecionar outro estilo? ")
+            if resp.lower() not in val_resp:
+                print("Entrada inválida. Digite sim ou não.\n")
+            else:
+                break
+        if resp in val_resp[1:]:
+            menu_principal()
+        else:
+            opcao_7()
+
 
     else:
+
         for i in range (len(lista_dic)):
             if " " + nome == lista_dic[i]["NOME "]:
                 cont = int(lista_dic[i][" CONTADOR "])
                 cont += 1
-                lista_dic[i][" CONTADOR "] = str(cont)
+                lista_dic[i][" CONTADOR "] = " " + str(cont) 
+
 
         new_list = []
         for i in range(len(lista_dic)):
@@ -869,14 +908,8 @@ def opcao_7():
         arq.writelines(new_list)
         arq.close()
 
-        
 
-    
-
-
-    
-
-
+        menu_principal()
 
 
 ################# ################# #################
