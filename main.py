@@ -90,6 +90,7 @@ def opcao_1():
         # Retira a coluna do ID da lista
         list_conteudo.pop(0)
 
+        # Lista para guardar a validação de situação para quando não há venda
         arq = open("validacao_opt_1.txt", "r")
 
         list_sit = arq.readlines()
@@ -200,7 +201,7 @@ def opcao_2():
 
         # while true para verificar a existência do nome dentro de lista_comp_nomes
         while True:
-            # Pede a entrada do usuário para saber qual estilo ele quer remover
+            # Pede a entrada do usuário para saber em qual estilo ele quer adicionar
             nome_estilo = input("Em qual estilo você gostaria de adicionar? ")
             if " " + nome_estilo.lower() in lista_comp_nomes:
                 break
@@ -226,6 +227,7 @@ def opcao_2():
             if id_peca in lista_arm_2[i][0]:
                 peca = lista_arm[i]
 
+        # Retira \n e - (estilo vazio)
         peca = peca[0:-2]
 
         # Abrimos o arquivo de estilos para armazenar as informações dele em 'lista_estilos'
@@ -239,7 +241,7 @@ def opcao_2():
             dictionary = dict(subString.split("=") for subString in i.split(";"))
             lista_dic.append(dictionary)
 
-        # se o estilo referido é o ultimo
+        # se o estilo referido é o ultimo não há qubra de linha
         if lista_dic[-1]['NOME '] == " " + nome_estilo:     
             # For para adicionar a peça ao estilo informado
             for i in range(len(lista_dic)):
@@ -253,6 +255,7 @@ def opcao_2():
             for i in range(len(lista_dic)):
                 if lista_dic[i]['NOME '] == " " + nome_estilo:
                     peca = " " + peca + "|"       
+                    # recorte no -1 para cortar o \n ja existente
                     lista_estilos[i] = lista_estilos[i][:-1] + peca + "\n"
 
 
@@ -261,6 +264,8 @@ def opcao_2():
         arq.writelines(lista_estilos)
         arq.close()
 
+
+        ########### Alterar estilo no armário
 
         lista_armario2 = []
 
@@ -341,7 +346,7 @@ def opcao_3():
     # Variável que vai receber a informação para quem foi vendida ou doada a peça
     para = input("Digite para quem foi vendida ou doada: ")
 
-    #Adiciona a informação a linha da peça
+    #Adiciona a informação a linha da peça e recorte no -1 para tirar \n
     historico = "\n" + historico[:-1] + " " + para
 
     print(historico)
@@ -389,11 +394,11 @@ def opcao_4():
     nomes_estilos = arq.readlines()
     arq.close()
 
-    # Split na lista de estilos
+    # Split na lista de estilos (separa nos ;)
     for i in range(len(estilos)):
         estilos[i] = estilos[i].split(";")
 
-    # Print na lista dos estilos
+    # Print na lista dos estilos (printa somente os nomes)
     for i in range(len(estilos)):
         print(estilos[i][0])
 
@@ -467,7 +472,7 @@ def opcao_5():
     # Mostrar as peças presentes no armário
     lista_armario = imprimir_arq_arm()
 
-    # Abre o arquivo e o armazena em lista_trat
+    # Abre o arquivo e o armazena em lista_trat para tratamento
     arq = open("armario.txt", "r")
     lista_trat = arq.readlines()
     arq.close()
@@ -515,6 +520,7 @@ def opcao_5():
     # Se a alteração é no estilo da peça é realizado um for para pegar a linha
     if cat_alter == 8:
 
+        # lista armario2 vai ser a lista_armario com split em cada linha
         lista_armario2 = []
         for i in range(len(lista_armario)):
             lista_armario2.append(lista_armario[i].split())
@@ -530,22 +536,27 @@ def opcao_5():
         lista_estilos = arq.readlines()
         arq.close()
 
-        # For para transformar o dicionário em lista
+        # For para transformar o a lista em uma lista de dicionários
         lista_dic = []
         for i in lista_estilos:
             dictionary = dict(subString.split("=") for subString in i.split(";"))
             lista_dic.append(dictionary)
 
-        # For para pegar as peças do estilo que sofreram uma alteração e formatá-la de modo que possamos manipular
+        # for 
         for i in range (len(lista_dic)):
+            # se o estilo escolhido for igual ao valor da chave nome na linha i, então:
             if " " + estilo_alter == lista_dic[i]["NOME "]:
+                # dic armazena o dicionario referido
                 dic = lista_dic[i]
+                # dic_pecas recebe as pecas desse estilo
                 dic_pecas = dic[" PECAS "]
+                # split na | para separar as pecas, ou seja, cada peça vai ser uma string
                 dic_pecas = dic_pecas.split("|")
                 for j in range(len(dic_pecas)):
+                    # cada peça vai ser dividida em uma lista
                     dic_pecas[j] = dic_pecas[j].split()
 
-
+        # tira o \n
         dic_pecas.pop(-1)
 
 
@@ -555,11 +566,12 @@ def opcao_5():
                 del(dic_pecas[i])
                 break
 
+        
         for i in range(len(dic_pecas)):
-            # adiciona uma "|", na ultima peça, se a peça não for a última
+            # adiciona um "|\n", na ultima peca, se a peça for a ultima
             if i == len(dic_pecas) - 1:
                 dic_pecas[i].insert(8, "|\n")
-            # adiciona um "|\n", na ultima peca, se a peça não for a última
+            # adiciona uma "|" se a peça não é a última
             else:
                 dic_pecas[i].insert(8, "|")
 
@@ -574,7 +586,7 @@ def opcao_5():
 
         dic_pecas = dic_pecas2
 
-
+        # o valor da chave PEÇAS recebe a string atualizada
         dic[" PECAS "] = dic_pecas
 
         # For para adicionar a peça alterada para o estilo que agora ela faz parte
@@ -582,7 +594,7 @@ def opcao_5():
             if " " + estilo_alter == lista_dic[i]["NOME "]:
                 lista_dic[i] = dic
 
-        # For para converter a lista em dicionarios após as alterações
+        # For para converter o dicionario em string
         new_list = []
         for i in range(len(lista_dic)):
             elemento_new_list = "NOME ="
@@ -602,10 +614,14 @@ def opcao_5():
             if prov_list[i][7] == "=":
                 prov_list[i][-1] = "|\n"
             else:
+                # localização onde há erro
                 id_trat.append(prov_list[i][7].split("="))
                 id_trat = "".join(id_trat[0])
+                # retirar a informação errada
                 prov_list[i].pop(7)
+                # insere a string correta
                 prov_list[i].insert(7, str(id_trat))
+                # insere o =
                 prov_list[i].insert(7, "=")
 
         # new_list recebe a prov_list, já tratada, em forma de string
@@ -652,8 +668,10 @@ def opcao_5():
 
     # Converte de lista de lista para lista de strings
     for i in range(len(lista_armario2)):
+        # se é o último elemento, não adiciona o \n
         if i == len(lista_armario2) - 1:
             lista_armario2[i] = " ".join(lista_armario2[i])
+        # se não é o último elemento, adiciona o \n
         else:
             lista_armario2[i] = " ".join(lista_armario2[i]) + "\n"
 
@@ -860,7 +878,7 @@ def opcao_6():
         # Se o padrão informado conter nas linhas com coluna fixada, irá armazenar a linha toda em uma nova lista
         elif sit.lower() == "venda":
 
-            # separa a lista_arm e guarda em lista_armario2
+            # separa a lista_arm e guarda em lista_armario2, transformando em uma lista de listas
             sit = sit.lower()
             lista_armario2 = []
             for i in range(len(lista_arm)):
@@ -918,7 +936,7 @@ def opcao_6():
             for i in range(len(lista_sit_filt)):
                 lista_data.append(lista_sit_filt[i][5])
 
-
+            # retira as barras, separando o dia, mes e ano
             for i in range(len(lista_data)):
                 lista_data[i] = lista_data[i].split('/')
 
@@ -991,8 +1009,6 @@ def opcao_6():
                 if lista_cont[i] == int(lista_dic[j][" CONTADOR "]):
                     # quando achar o maior, o dicionario correspondente será adcionado à lista_ordem
                     lista_ordem.append(lista_dic[j])
-
-        print(lista_ordem)
 
         # \n para organização da saída
         print("\n")
@@ -1072,7 +1088,7 @@ def opcao_7():
     for i in range(len(estilos)):
         lista_est_nome.append(estilos[i].split(";"))
 
-    # Print na lista dos estilos
+    # Print na lista dos nomes dos estilos
     for i in range(len(lista_est_nome)):
         print(lista_est_nome[i][0])
 
@@ -1443,7 +1459,7 @@ def tratamento_cadastro(j, info):
         lista_sit = arq.readlines()[2].split()
         arq.close()
 
-        # enquanto a informação tratada não for p, m ou g, pedirá novamente a informação
+        # enquanto a informação tratada não for venda, doacao ou ficar, pedirá novamente a informação
         info = info.lower().strip()
         while True:
             if info in lista_sit:
