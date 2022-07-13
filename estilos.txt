@@ -1,5 +1,5 @@
-NOME = outono; CONTADOR = 4; PECAS = 4 superior m feminino azul 7/9/2000 doacao - | 5 calcado p unissex branco 11/2/2010 venda 50.5 |
+NOME = outono; CONTADOR = 5; PECAS = 4 superior m feminino azul 7/9/2000 doacao - | 5 calcado p unissex branco 11/2/2010 venda 50.5 |
 NOME = inverno; CONTADOR = 0; PECAS = 1 superior p masculino vermelho 8/10/2002 ficar - | 10 inferior g masculino rosa 8/7/2022 ficar - | 11 inferior g feminino rosa 14/10/2020 doacao - |
-NOME = verao; CONTADOR = 14; PECAS = 12 calcado m unissex rosa 17/9/2018 venda 75.5 - |
-NOME = classico; CONTADOR = 9; PECAS = 13 superior p masculino rosa 15/12/2019 venda 112.5 | 2 inferior m feminino jeans 27/12/1999 doacao - |
-NOME = casual; CONTADOR = 21; PECAS = 9 superior m feminino branco 8/7/2022 ficar - | 3 calcado g unissex rosa 28/8/2004 venda 20.3 |
+NOME = verao; CONTADOR = 15; PECAS = 12 calcado m unissex amarelo 17/9/2018 venda 75.5 - | 14 calcado p unissex preto 10/10/2020 doacao - |
+NOME = classico; CONTADOR = 10; PECAS = 13 superior p masculino preto 15/12/2019 venda 112.5 | 2 inferior m feminino jeans 27/12/1999 doacao - |
+NOME = casual; CONTADOR = 22; PECAS = 9 superior m feminino branco 8/7/2021 ficar - | 3 calcado g unissex rosa 28/8/2004 venda 20.3 |

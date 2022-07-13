@@ -7,5 +7,6 @@ ID Tipo Tamanho Padrao Cor Data Situacao Preco Estilos
 9 superior m feminino branco 8/7/2021 ficar - casual
 10 inferior g masculino rosa 8/7/2022 ficar - inverno
 11 inferior g feminino rosa 14/10/2020 doacao - inverno
-12 calcado m unissex rosa 17/9/2018 venda 75.5 verao
-13 superior p masculino rosa 15/12/2019 venda 112.5 classico
+12 calcado m unissex amarelo 17/9/2018 venda 75.5 verao
+13 superior p masculino preto 15/12/2019 venda 112.5 classico
+14 calcado p unissex preto 10/10/2020 doacao - verao
