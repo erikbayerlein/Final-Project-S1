@@ -892,6 +892,7 @@ def opcao_6():
             for i in range(len(lista_ordem)):
                 lista_ordem[i] = (" ".join(lista_ordem[i]))
 
+            print("\n")
             # print em lista_ordem
             print("ID Tipo Tamanho Padrao Cor Data Situacao Preco Estilos")
             for i in range(len(lista_ordem)):
@@ -990,6 +991,8 @@ def opcao_6():
                 if lista_cont[i] == int(lista_dic[j][" CONTADOR "]):
                     # quando achar o maior, o dicionario correspondente será adcionado à lista_ordem
                     lista_ordem.append(lista_dic[j])
+
+        print(lista_ordem)
 
         # \n para organização da saída
         print("\n")
