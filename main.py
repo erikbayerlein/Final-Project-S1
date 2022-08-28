@@ -62,7 +62,7 @@ def opcao_1():
         # Abre o arquivo
         arquivo_armario = open("armario.txt", "r")
 
-        # Lê a primeira linha e armazena
+        # Lê as linhas e armazena
         conteudo = arquivo_armario.readline()
         # Transforma conteudo em lista de lista
         list_conteudo = conteudo.split()
@@ -111,7 +111,7 @@ def opcao_1():
                 # Recebe as informações formatada em lista e adiciona a variável
                 list_info.append(info)
 
-            # IF para quando situação = doação ou ficar adiciona - a coluna de preço se não o usuário insere o valor
+            # ELIF para quando situação = doação ou ficar adiciona - a coluna de preço se não o usuário insere o valor
             elif j == 6 and (list_info[5][0:6] in list_sit or list_info[5][0:5] in list_sit):
                 info = "- "
                 list_info.append(info)
@@ -247,6 +247,7 @@ def opcao_2():
             for i in range(len(lista_dic)):
                 if lista_dic[i]['NOME '] == " " + nome_estilo:
                     peca = " " + peca + "|"       
+                    # tirar \n e concatenar a peca nova às antigas
                     lista_estilos[i] = lista_estilos[i][:-1] + peca
         
         # se o estilo referido não é o útilmo
@@ -550,7 +551,7 @@ def opcao_5():
                 dic = lista_dic[i]
                 # dic_pecas recebe as pecas desse estilo
                 dic_pecas = dic[" PECAS "]
-                # split na | para separar as pecas, ou seja, cada peça vai ser uma string
+                # split na | para separar as pecas
                 dic_pecas = dic_pecas.split("|")
                 for j in range(len(dic_pecas)):
                     # cada peça vai ser dividida em uma lista
@@ -895,6 +896,8 @@ def opcao_6():
             for i in range(len(lista_sit_filt)):
                 lista_precos.append(float(lista_sit_filt[i][7]))
 
+
+            ##################### TESTAR DEPOIS lista_precos = lista_precos.sort()
             # lista_precos é ordenada em forma crescente
             lista_precos.sort()
             lista_precos = sorted(lista_precos)
@@ -1434,12 +1437,12 @@ def tratamento_cadastro(j, info):
     # Tratamento de cor
     if j == 3:
 
-        # guarda a segunda linha do arquivo validacao_opt_1.txt em lista_tipos
+        # guarda a segunda linha do arquivo validacao_opt_1.txt em lista_cores
         arq = open("validacao_opt_1.txt", "r")
         lista_cores = arq.readlines()[1].split()
         arq.close()
 
-        # enquanto a informação tratada não for p, m ou g, pedirá novamente a informação
+        # enquanto a informação tratada não estiver na lista cores, pedirá novamente a informação
         info = info.lower().strip()
         while True:
             if info in lista_cores:
@@ -1454,7 +1457,7 @@ def tratamento_cadastro(j, info):
     # Tratamento de situação
     if j == 5:
 
-        # guarda a terceira linha do arquivo validacao_opt_1.txt em lista_tipos
+        # guarda a terceira linha do arquivo validacao_opt_1.txt em lista_situacao
         arq = open("validacao_opt_1.txt", "r")
         lista_sit = arq.readlines()[2].split()
         arq.close()
